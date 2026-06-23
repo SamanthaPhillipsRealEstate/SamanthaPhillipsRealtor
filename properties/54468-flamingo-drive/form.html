@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Contact – Samantha Phillips</title>
+	<style>
+		/* Global */
+		body {margin:0;font-family:sans-serif;background:#f9f9f9;color:#222;padding-bottom:78px}
+
+		/* Header */
+		#site-header {position:fixed;top:0;left:0;width:100%;z-index:1001;background:#1c1c1c;box-sizing:border-box;padding:0.5rem 1.5rem}
+		.header-inner {display:flex;align-items:center;max-width:1200px;margin:0 auto;height:50px;position:relative}
+		.header-logo {height:42px;width:auto;object-fit:contain;position:absolute;left:50%;transform:translateX(-50%)}
+		.header-nav {display:flex;gap:1.75rem;margin-left:auto;align-items:center}
+		.header-nav a {color:#fff;text-decoration:none;font-size:0.85rem;letter-spacing:0.04em;white-space:nowrap}
+		.header-nav a:hover {color:#ddd}
+
+		/* Page content */
+		.page-content {padding-top:70px;min-height:calc(100vh - 78px)}
+
+		/* Form section */
+		.form-section {padding:3rem 1rem;text-align:center}
+		.form-section h1 {font-size:2rem;font-weight:bold;margin-bottom:0.5rem}
+		.form-section p {color:#555;margin-bottom:2rem;font-size:1rem}
+
+		.contact-form {max-width:560px;margin:0 auto;text-align:left}
+		.form-row {display:flex;gap:1rem}
+		.form-group {display:flex;flex-direction:column;margin-bottom:1.25rem;flex:1}
+		.form-group label {font-size:0.8rem;font-weight:bold;text-transform:uppercase;letter-spacing:0.05em;color:#555;margin-bottom:0.35rem}
+		.form-group input,
+		.form-group textarea {padding:0.7rem 0.9rem;border:1.5px solid #ccc;border-radius:4px;font-size:1rem;font-family:inherit;background:#fff;transition:border-color .2s}
+		.form-group input:focus,
+		.form-group textarea:focus {outline:none;border-color:#222}
+		.form-group textarea {resize:vertical;min-height:120px}
+
+		.submit-btn {width:100%;padding:0.85rem;background:#1c1c1c;color:#fff;border:none;border-radius:4px;font-size:1rem;font-weight:bold;letter-spacing:0.04em;cursor:pointer;transition:background .2s}
+		.submit-btn:hover {background:#333}
+
+		/* Contact footer */
+		#contact {position:fixed;bottom:0;left:0;width:100%;z-index:1000;background:#1c1c1c;box-shadow:0 -2px 14px rgba(0,0,0,0.4);box-sizing:border-box;padding:0.6rem 1.5rem}
+		.contact-inner {display:flex;align-items:center;gap:1.25rem;max-width:1200px;margin:0 auto;position:relative}
+		.contact-right {display:flex;align-items:center;gap:1.25rem;margin-left:auto;text-align:right}
+		.contact-photo {width:40px;height:50px;object-fit:cover;object-position:top;border-radius:4px;flex-shrink:0}
+		.contact-name {font-size:0.9rem;font-weight:bold;margin:0;color:#fff;white-space:nowrap}
+		.contact-title {font-size:0.7rem;color:#aaa;margin:0;white-space:nowrap}
+		.contact-license {font-size:0.65rem;color:#777;margin:0 0 0.4rem}
+		.contact-details {display:flex;flex-direction:row;gap:1.25rem;align-items:center;text-align:left;position:absolute;left:50%;transform:translateX(-50%)}
+		.contact-row {display:flex;flex-direction:column;line-height:1.25;align-items:center}
+		.contact-label {font-size:0.6rem;font-weight:bold;text-transform:uppercase;letter-spacing:0.06em;color:#777}
+		.contact-row a {color:#e0e0e0;text-decoration:none;font-size:0.82rem;white-space:nowrap}
+		.contact-row a:hover {color:#007bff}
+		.contact-logos {display:flex;align-items:center;gap:0.75rem;flex-shrink:0}
+		.contact-logo {height:30px;width:auto;object-fit:contain}
+		.contact-logos img:first-child {height:60px}
+
+		@media(max-width:600px){
+			.contact-logos{display:none}
+			.contact-right{display:none}
+			.contact-row:last-child{display:none}
+			.contact-details{position:static;transform:none;gap:1.25rem}
+			.contact-inner{justify-content:center}
+			.form-row{flex-direction:column;gap:0}
+			.header-nav{width:100%;justify-content:space-between;margin-left:0}
+		}
+	</style>
+</head>
+<body>
+
+	<header id="site-header">
+		<div class="header-inner">
+			<img src="logos/White SP Logo - With Box no text.png" alt="Samantha Phillips" class="header-logo">
+			<nav class="header-nav">
+				<a href="https://samanthap.kw.com/featured-properties">Featured Properties</a>
+				<a href="https://samanthap.kw.com/agent/samantha-phillips/799209">About Me</a>
+			</nav>
+		</div>
+	</header>
+
+	<div class="page-content">
+		<section class="form-section">
+			<h1>54468 Flamingo Drive sold <strong>OVER-ASK</strong> in just <strong>3 DAYS!</strong></h1>
+			<p>Sign Up below to be notified when future listings on Diegel Pond hit the market.</p>
+
+			<form class="contact-form">
+				<div class="form-row">
+					<div class="form-group">
+						<label for="first-name">First Name <span style="color:#c00">*</span></label>
+						<input type="text" id="first-name" name="First Name" required placeholder="Jane">
+					</div>
+					<div class="form-group">
+						<label for="last-name">Last Name <span style="color:#c00">*</span></label>
+						<input type="text" id="last-name" name="Last Name" required placeholder="Smith">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="phone">Phone Number <span style="color:#c00">*</span></label>
+					<input type="tel" id="phone" name="Phone Number" required placeholder="(555) 555-5555">
+				</div>
+
+				<div class="form-group">
+					<label for="email">Email <span style="color:#c00">*</span></label>
+					<input type="email" id="email" name="Email" required placeholder="jane@example.com">
+				</div>
+
+				<div class="form-group">
+					<label for="comments">Comments</label>
+					<textarea id="comments" name="Comments" placeholder="Any questions or preferred showing times…"></textarea>
+				</div>
+
+				<button type="submit" class="submit-btn" id="submit-btn">Send Message</button>
+			<p id="form-message" style="margin-top:1rem;text-align:center;font-size:0.95rem;display:none"></p>
+			</form>
+		</section>
+	</div>
+
+	<script>
+		// Replace with your deployed Apps Script web app URL
+		var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbym4mwa1-dnYpFdiLWEzFjB3tOSe5WysDBwR27SHLTDoirVrctxRlg3K0vNg0oiX20Yfg/exec";
+
+		document.querySelector(".contact-form").addEventListener("submit", function(e) {
+			e.preventDefault();
+			var btn = document.getElementById("submit-btn");
+			var msg = document.getElementById("form-message");
+			btn.disabled = true;
+			btn.textContent = "Sending…";
+
+			var payload = {
+				firstName: document.getElementById("first-name").value,
+				lastName:  document.getElementById("last-name").value,
+				phone:     document.getElementById("phone").value,
+				email:     document.getElementById("email").value,
+				comments:  document.getElementById("comments").value
+			};
+
+			var formBody = Object.keys(payload).map(function(k) {
+				return encodeURIComponent(k) + "=" + encodeURIComponent(payload[k]);
+			}).join("&");
+
+			fetch(SCRIPT_URL, {
+				method: "POST",
+				mode: "no-cors",
+				headers: {"Content-Type": "application/x-www-form-urlencoded"},
+				body: formBody
+			})
+			.then(function() {
+				msg.style.color = "#2a7a2a";
+				msg.textContent = "Thank you! We'll be in touch.";
+				msg.style.display = "block";
+				e.target.reset();
+				btn.disabled = false;
+				btn.textContent = "Send Message";
+			})
+			.catch(function() {
+				msg.style.color = "#c00";
+				msg.textContent = "Network error. Please try again.";
+				msg.style.display = "block";
+				btn.disabled = false;
+				btn.textContent = "Send Message";
+			});
+		});
+	</script>
+
+	<!-- Contact -->
+	<section id="contact">
+		<div class="contact-inner">
+			<div class="contact-logos">
+				<img src="logos/LOGO SP Selected.png" alt="Samantha Phillips" class="contact-logo">
+				<img src="logos/Web_KWDomain_logo.png" alt="Keller Williams" class="contact-logo">
+			</div>
+			<div class="contact-details">
+				<div class="contact-row">
+					<span class="contact-label">Mobile</span>
+					<a href="tel:+12488854969">(248) 885-4969</a>
+				</div>
+				<div class="contact-row">
+					<span class="contact-label">Office</span>
+					<a href="tel:+12485900800">(248) 590-0800</a>
+				</div>
+				<div class="contact-row">
+					<span class="contact-label">Email</span>
+					<a href="mailto:samanthaphillipsrealtor@gmail.com">samanthaphillipsrealtor@gmail.com</a>
+				</div>
+			</div>
+			<div class="contact-right">
+				<div>
+					<h2 class="contact-name">Samantha Phillips</h2>
+					<p class="contact-title">REALTOR®</p>
+					<p class="contact-license">License #: 434142</p>
+				</div>
+				<img src="headshots/02_06077-Samantha-Samantha Phillips Hi-Res CROPPED.jpg" alt="Samantha Phillips" class="contact-photo">
+			</div>
+		</div>
+	</section>
+
+</body>
+</html>

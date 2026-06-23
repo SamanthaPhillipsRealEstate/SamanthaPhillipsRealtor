@@ -1,0 +1,9 @@
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+
+# Large/scratch files
+html_example.html
+test.html

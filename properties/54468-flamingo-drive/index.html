@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>54468 Flamingo — Listing</title>
+	<style>
+		/* Global */
+		body {margin:0;font-family:sans-serif;background:#f9f9f9;color:#222;padding-bottom:78px}
+
+		/* Skip link (keyboard / screen-reader bypass) */
+		.skip-link {position:absolute;left:-999px;top:0;z-index:1100;background:#1c1c1c;color:#fff;padding:0.6rem 1rem;border-radius:0 0 6px 0;text-decoration:none}
+		.skip-link:focus {left:0}
+
+		/* Header */
+		#site-header {position:fixed;top:0;left:0;width:100%;z-index:1001;background:transparent;box-sizing:border-box;padding:0.5rem 1.5rem;transition:transform .3s ease}
+		#site-header.header-hidden {transform:translateY(-100%)}
+		.header-inner {display:flex;align-items:center;max-width:1200px;margin:0 auto;height:50px;position:relative}
+		.header-logo {height:32px;width:auto;object-fit:contain;position:absolute;left:50%;transform:translateX(-50%)}
+		.header-nav {display:flex;gap:1.75rem;margin-left:auto;align-items:center}
+		.header-nav a {color:#fff;text-decoration:none;font-size:0.85rem;letter-spacing:0.04em;white-space:nowrap;text-shadow:0 1px 4px rgba(0,0,0,0.6)}
+		.header-nav a:hover {color:#ddd}
+		.header-nav a:focus-visible {outline:2px solid #fff;outline-offset:3px;border-radius:2px}
+
+		/* Opening / Hero */
+		.hero-section {
+				position: relative;
+				width: 100%;
+				height: 100vh;
+				height: 100svh;
+				overflow: hidden;
+				background-color: #000;
+		}
+
+		.hero-background-image {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				object-position: center;
+				filter: brightness(0.8);
+		}
+
+		.hero-content {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				color: white;
+				text-align: center;
+				z-index: 10;
+		}
+
+		.hero-title {font-size: 4.5rem; font-weight: bold; margin-bottom: 0.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.7); line-height:1.1; white-space:nowrap}
+		.hero-subtitle {font-size:4.5rem;font-weight:bold;text-shadow:2px 2px 4px rgba(0,0,0,0.7)}
+
+		@media(max-width:768px){
+			.hero-title{font-size:min(2.25rem,7.5vw);white-space:normal;overflow-wrap:break-word}
+			.hero-subtitle{font-size:1.8rem}
+			.header-nav{width:100%;justify-content:space-between;margin-left:0;gap:0.5rem}
+			.header-nav a{font-size:0.72rem;letter-spacing:0.02em}
+			#site-header{padding:0.5rem 1rem}
+			.gallery{grid-template-columns:repeat(2,1fr)}
+			.details-section{padding:2rem 1rem}
+			#map iframe{height:300px}
+		}
+
+		/* Details section (kept inline-like styling converted to classes) */
+		.details-section {padding:4rem 1rem; text-align:center}
+		.details-inner {max-width:1100px;margin:0 auto;font-size:1.125rem;line-height:1.9;color:#333}
+		.features {list-style-type:disc;text-align:left;margin:2rem auto;max-width:900px;font-size:1rem;line-height:1.8}
+		.stats {display:flex;flex-wrap:wrap;justify-content:center;gap:0.5rem;margin-top:2.5rem}
+		.stat {border:2px solid #000;padding:0.5rem 0.8rem;min-width:110px;flex:0 1 auto;white-space:nowrap;font-size:0.9rem}
+
+		/* Gallery */
+		section.gallery-section {padding:4rem 1rem;text-align:center}
+		.gallery {
+			display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:1200px;margin:0 auto
+		}
+		.gallery a {position:relative;overflow:hidden;border-radius:8px;background:#eee;aspect-ratio:4/3;box-shadow:0 4px 8px rgba(0,0,0,0.1)}
+		.gallery img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .3s ease;display:block}
+		.gallery img:hover{transform:scale(1.05)}
+		.gallery a:nth-child(n+13){display:none}
+		.gallery.show-all a:nth-child(n+13){display:block}
+		.show-more-btn{margin-top:2rem;padding:0.8rem 2rem;background-color:#007bff;color:white;border:none;border-radius:5px;cursor:pointer;font-size:1rem}
+
+		/* Lightbox */
+		.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:9999;align-items:center;justify-content:center;padding:2rem}
+		.lightbox.is-open{display:flex}
+		.lightbox #lb-img{max-width:90%;max-height:85vh;border-radius:8px;box-shadow:0 10px 30px rgba(255,255,255,0.2)}
+		.lightbox button{background:none;border:none;color:#fff;cursor:pointer;font-size:3rem;position:absolute;top:50%;transform:translateY(-50%);padding:0 1rem;transition:.3s;line-height:1}
+		.lightbox button:hover{color:#bbb}
+		.lightbox .lb-prev{left:1rem}
+		.lightbox .lb-next{right:1rem}
+		.lightbox .lb-close{top:1rem;right:1.5rem;font-size:2rem;transform:none}
+
+		/* Map */
+		#map {padding:2rem 0;text-align:center}
+
+		/* Contact footer */
+		#contact {position:fixed;bottom:0;left:0;width:100%;z-index:1000;background:#1c1c1c;box-shadow:0 -2px 14px rgba(0,0,0,0.4);box-sizing:border-box;padding:0.6rem 1.5rem}
+		.contact-inner {display:flex;align-items:center;gap:1.25rem;max-width:1200px;margin:0 auto;position:relative}
+		.contact-right {display:flex;align-items:center;gap:1.25rem;margin-left:auto;text-align:right}
+		.contact-photo {width:40px;height:50px;object-fit:cover;object-position:top;border-radius:4px;flex-shrink:0}
+		.contact-name {font-size:0.9rem;font-weight:bold;margin:0;color:#fff;white-space:nowrap}
+		.contact-title {font-size:0.7rem;color:#aaa;margin:0;white-space:nowrap}
+		.contact-license {font-size:0.65rem;color:#9a9a9a;margin:0 0 0.4rem}
+		.contact-details {display:flex;flex-direction:row;gap:1.25rem;align-items:center;text-align:left;position:absolute;left:50%;transform:translateX(-50%)}
+		.contact-row {display:flex;flex-direction:column;line-height:1.25;align-items:center}
+		.contact-label {font-size:0.6rem;font-weight:bold;text-transform:uppercase;letter-spacing:0.06em;color:#9a9a9a}
+		.contact-row a {color:#e0e0e0;text-decoration:none;font-size:0.82rem;white-space:nowrap}
+		.contact-row a:hover {color:#3b9bff}
+		.contact-row a:focus-visible {outline:2px solid #3b9bff;outline-offset:2px;border-radius:2px}
+		.contact-logos {display:flex;align-items:center;gap:0.75rem;flex-shrink:0}
+		.contact-logo {height:30px;width:auto;object-fit:contain}
+		.contact-logos img:first-child {height:60px}
+		@media(max-width:600px){
+			.contact-logos{display:none}
+			.contact-right{display:none}
+			.contact-row:last-child{display:none}
+			.contact-details{position:static;transform:none;gap:1.25rem}
+			.contact-inner{justify-content:center}
+		}
+	</style>
+	<link rel="stylesheet" href="../../assets/banner.css">
+	<link rel="stylesheet" href="../../assets/nav.css">
+</head>
+<body>
+	<a href="#main" class="skip-link">Skip to main content</a>
+
+	<header id="site-header">
+		<div class="header-inner">
+			<img src="../../assets/logos/White SP Logo - With Box no text.png" alt="Samantha Phillips" class="header-logo">
+			<nav class="header-nav">
+				<a href="../../index.html">Featured Properties</a>
+				<a href="https://samanthap.kw.com/agent/samantha-phillips/799209">About Me</a>
+			</nav>
+		</div>
+	</header>
+
+	<main id="main" tabindex="-1">
+
+	<!-- Opening (hero) -->
+	<section class="hero-section">
+			<img src="images/04-Flamingo.jpg" class="hero-background-image" alt="54468 Flamingo Drive, Shelby Township">
+			<div class="hero-content">
+					<h1 class="hero-title">54468 Flamingo Drive<br>Shelby Township</h1>
+			</div>
+	</section>
+
+	<!-- Details -->
+	<section class="details-section">
+
+		<div class="details-inner">
+			<p>Welcome to this exceptional pond-front colonial in the highly sought-after Shelby Township community of Diegel Farms, offering breathtaking water views from nearly every window. Located within the award-winning Utica Community Schools, this 5-bedroom, 4.5-bath residence delivers over 3,600 square feet of refined living space plus an additional 1,500+ square feet of beautifully finished walkout lower level.</p>
+			<p>Designed for both everyday comfort and effortless entertaining, the chef’s kitchen features granite countertops, a spacious walk-in pantry, and a stylish butler’s bar that seamlessly connects the dining room and breakfast nook. Just off the great room, a functional wet bar with beverage fridge adds the perfect touch for hosting gatherings.</p>
+			<p>Upstairs, four bedrooms include walk-in closets and ensuites, providing comfort and privacy for family and guests alike. The luxurious primary suite offers serene pond views, a spa-inspired bath with soaking tub and separate shower, and an expansive walk-in closet.</p>
+			<p>The finished walkout lower level is an entertainer’s dream — complete with a full bar, fireplace lounge area, fifth bedroom, full bath, and private sauna. Step outside to enjoy the beautifully maintained, swimmable pond — ideal for fishing, paddle boating, canoeing, or simply relaxing along the water’s edge.</p>
+			<p>Additional highlights include main-floor laundry, a 3-car attached garage with direct access to both the main and lower levels, and flexible living spaces perfectly suited for growing or multi-generational families.</p>
+			<p>With upscale finishes, generous living areas, and a tranquil waterfront setting close to everything, this home offers the ideal blend of luxury and lifestyle.</p>
+
+			<div class="stats">
+				<div class="stat">5 Bedrooms</div>
+				<div class="stat">4.5 Bathrooms</div>
+				<div class="stat">3,600+ Sq Ft</div>
+				<div class="stat">3-Car Garage</div>
+				<div class="stat">Water-Front</div>
+			</div>
+		</div>
+
+	</section>
+
+	<!-- Gallery -->
+	<section class="gallery-section">
+		<div class="gallery" id="gallery">
+			<a href="images/01-Flamingo.jpg" data-index="0" aria-label="View photo 1"><img src="images/01-Flamingo.jpg" alt=""></a>
+			<a href="images/02-Flamingo.jpg" data-index="1" aria-label="View photo 2"><img src="images/02-Flamingo.jpg" alt=""></a>
+			<a href="images/03-Flamingo.jpg" data-index="2" aria-label="View photo 3"><img src="images/03-Flamingo.jpg" alt=""></a>
+			<a href="images/04-Flamingo.jpg" data-index="3" aria-label="View photo 4"><img src="images/04-Flamingo.jpg" alt=""></a>
+			<a href="images/05-Flamingo.jpg" data-index="4" aria-label="View photo 5"><img src="images/05-Flamingo.jpg" alt=""></a>
+			<a href="images/06-Flamingo.jpg" data-index="5" aria-label="View photo 6"><img src="images/06-Flamingo.jpg" alt=""></a>
+			<a href="images/07-Flamingo.jpg" data-index="6" aria-label="View photo 7"><img src="images/07-Flamingo.jpg" alt=""></a>
+			<a href="images/08-Flamingo.jpg" data-index="7" aria-label="View photo 8"><img src="images/08-Flamingo.jpg" alt=""></a>
+			<a href="images/09-Flamingo.jpg" data-index="8" aria-label="View photo 9"><img src="images/09-Flamingo.jpg" alt=""></a>
+			<a href="images/10-Flamingo.jpg" data-index="9" aria-label="View photo 10"><img src="images/10-Flamingo.jpg" alt=""></a>
+			<a href="images/11-Flamingo.jpg" data-index="10" aria-label="View photo 11"><img src="images/11-Flamingo.jpg" alt=""></a>
+			<a href="images/12-Flamingo.jpg" data-index="11" aria-label="View photo 12"><img src="images/12-Flamingo.jpg" alt=""></a>
+			<a href="images/13-Flamingo.jpg" data-index="12" aria-label="View photo 13"><img src="images/13-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/14-Flamingo.jpg" data-index="13" aria-label="View photo 14"><img src="images/14-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/15-Flamingo.jpg" data-index="14" aria-label="View photo 15"><img src="images/15-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/16-Flamingo.jpg" data-index="15" aria-label="View photo 16"><img src="images/16-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/17-Flamingo.jpg" data-index="16" aria-label="View photo 17"><img src="images/17-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/18-Flamingo.jpg" data-index="17" aria-label="View photo 18"><img src="images/18-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/19-Flamingo.jpg" data-index="18" aria-label="View photo 19"><img src="images/19-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/20-Flamingo.jpg" data-index="19" aria-label="View photo 20"><img src="images/20-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/21-Flamingo.jpg" data-index="20" aria-label="View photo 21"><img src="images/21-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/22-Flamingo.jpg" data-index="21" aria-label="View photo 22"><img src="images/22-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/23-Flamingo.jpg" data-index="22" aria-label="View photo 23"><img src="images/23-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/24-Flamingo.jpg" data-index="23" aria-label="View photo 24"><img src="images/24-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/25-Flamingo.jpg" data-index="24" aria-label="View photo 25"><img src="images/25-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/26-Flamingo.jpg" data-index="25" aria-label="View photo 26"><img src="images/26-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/27-Flamingo.jpg" data-index="26" aria-label="View photo 27"><img src="images/27-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/28-Flamingo.jpg" data-index="27" aria-label="View photo 28"><img src="images/28-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/29-Flamingo.jpg" data-index="28" aria-label="View photo 29"><img src="images/29-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/30-Flamingo.jpg" data-index="29" aria-label="View photo 30"><img src="images/30-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/31-Flamingo.jpg" data-index="30" aria-label="View photo 31"><img src="images/31-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/32-Flamingo.jpg" data-index="31" aria-label="View photo 32"><img src="images/32-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/33-Flamingo.jpg" data-index="32" aria-label="View photo 33"><img src="images/33-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/34-Flamingo.jpg" data-index="33" aria-label="View photo 34"><img src="images/34-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/35-Flamingo.jpg" data-index="34" aria-label="View photo 35"><img src="images/35-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/36-Flamingo.jpg" data-index="35" aria-label="View photo 36"><img src="images/36-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/37-Flamingo.jpg" data-index="36" aria-label="View photo 37"><img src="images/37-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/38-Flamingo.jpg" data-index="37" aria-label="View photo 38"><img src="images/38-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/39-Flamingo.jpg" data-index="38" aria-label="View photo 39"><img src="images/39-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/40-Flamingo.jpg" data-index="39" aria-label="View photo 40"><img src="images/40-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/41-Flamingo.jpg" data-index="40" aria-label="View photo 41"><img src="images/41-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/42-Flamingo.jpg" data-index="41" aria-label="View photo 42"><img src="images/42-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/43-Flamingo.jpg" data-index="42" aria-label="View photo 43"><img src="images/43-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/44-Flamingo.jpg" data-index="43" aria-label="View photo 44"><img src="images/44-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/45-Flamingo.jpg" data-index="44" aria-label="View photo 45"><img src="images/45-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/46-Flamingo.jpg" data-index="45" aria-label="View photo 46"><img src="images/46-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/47-Flamingo.jpg" data-index="46" aria-label="View photo 47"><img src="images/47-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/48-Flamingo.jpg" data-index="47" aria-label="View photo 48"><img src="images/48-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/49-Flamingo.jpg" data-index="48" aria-label="View photo 49"><img src="images/49-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/50-Flamingo.jpg" data-index="49" aria-label="View photo 50"><img src="images/50-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/51-Flamingo.jpg" data-index="50" aria-label="View photo 51"><img src="images/51-Flamingo.jpg" alt="" loading="lazy"></a>
+			<a href="images/52-Flamingo.jpg" data-index="51" aria-label="View photo 52"><img src="images/52-Flamingo.jpg" alt="" loading="lazy"></a>
+		</div>
+		<button class="show-more-btn" id="show-more-btn">Show More</button>
+
+		<!-- Lightbox (JS-powered) -->
+		<div class="lightbox" id="lightbox" aria-hidden="true">
+			<button class="lb-close" aria-label="Close">×</button>
+			<button class="lb-prev" aria-label="Previous image">‹</button>
+			<img src="" alt="" id="lb-img">
+			<button class="lb-next" aria-label="Next image">›</button>
+		</div>
+	</section>
+
+	<script>
+	(function () {
+		var gallery = document.getElementById('gallery');
+		var items   = Array.from(gallery.querySelectorAll('a'));
+		var lb      = document.getElementById('lightbox');
+		var lbImg   = document.getElementById('lb-img');
+		var current = 0;
+
+		function openLb(index) {
+			current = index;
+			lbImg.src = items[current].getAttribute('href');
+			lbImg.alt = 'Enlarged property photo ' + (current + 1);
+			lb.classList.add('is-open');
+			lb.setAttribute('aria-hidden', 'false');
+		}
+		function closeLb() {
+			lb.classList.remove('is-open');
+			lb.setAttribute('aria-hidden', 'true');
+			lbImg.src = '';
+		}
+		function prev() { openLb((current - 1 + items.length) % items.length); }
+		function next() { openLb((current + 1) % items.length); }
+
+		items.forEach(function (a, i) {
+			a.addEventListener('click', function (e) { e.preventDefault(); openLb(i); });
+		});
+
+		document.querySelector('.lb-close').addEventListener('click', closeLb);
+		document.querySelector('.lb-prev').addEventListener('click', prev);
+		document.querySelector('.lb-next').addEventListener('click', next);
+
+		lb.addEventListener('click', function (e) { if (e.target === lb) closeLb(); });
+
+		document.addEventListener('keydown', function (e) {
+			if (!lb.classList.contains('is-open')) return;
+			if (e.key === 'Escape')     closeLb();
+			if (e.key === 'ArrowLeft')  prev();
+			if (e.key === 'ArrowRight') next();
+		});
+
+		document.getElementById('show-more-btn').addEventListener('click', function () {
+			gallery.classList.add('show-all');
+			this.style.display = 'none';
+		});
+	})();
+	</script>
+
+	</main>
+
+	<!-- Map -->
+	<section id="map">
+		<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2932.399159974017!2d-82.9994935!3d42.69526820000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8824e6d1697653bb%3A0xecc14d0605694604!2s54468%20Flamingo%20Dr%2C%20Shelby%20Township%2C%20MI%2048315!5e0!3m2!1sen!2sus!4v1771869715551!5m2!1sen!2sus" title="Map of 54468 Flamingo Dr, Shelby Township, MI 48315" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+	</section>
+
+	<!-- Contact -->
+	<section id="contact">
+		<div class="contact-inner">
+			<div class="contact-logos">
+				<img src="../../assets/logos/LOGO SP Selected.png" alt="Samantha Phillips" class="contact-logo">
+				<img src="../../assets/logos/Web_KWDomain_logo.png" alt="Keller Williams" class="contact-logo">
+			</div>
+			<div class="contact-details">
+				<div class="contact-row">
+					<span class="contact-label">Mobile</span>
+					<a href="tel:+12488854969">(248) 885-4969</a>
+				</div>
+				<div class="contact-row">
+					<span class="contact-label">Office</span>
+					<a href="tel:+12485900800">(248) 590-0800</a>
+				</div>
+				<div class="contact-row">
+					<span class="contact-label">Email</span>
+					<a href="mailto:samanthaphillipsrealtor@gmail.com">samanthaphillipsrealtor@gmail.com</a>
+				</div>
+			</div>
+			<div class="contact-right">
+				<div>
+					<h2 class="contact-name">Samantha Phillips</h2>
+					<p class="contact-title">REALTOR®</p>
+					<p class="contact-license">License #: 434142</p>
+				</div>
+				<img src="../../assets/headshots/02_06077-Samantha-Samantha Phillips Hi-Res CROPPED.jpg" alt="Samantha Phillips" class="contact-photo">
+			</div>
+		</div>
+	</section>
+
+	<script>
+	(function () {
+		var header = document.getElementById('site-header');
+		var lastY  = 0;
+		window.addEventListener('scroll', function () {
+			var y = window.scrollY;
+			if (y > lastY && y > 10) {
+				header.classList.add('header-hidden');
+			} else {
+				header.classList.remove('header-hidden');
+			}
+			lastY = y;
+		});
+	})();
+	</script>
+
+	<!-- Property data + auto status banner -->
+	<script src="../../listings.js"></script>
+	<script src="../../assets/banner.js"></script>
+	<script src="../../assets/nav.js"></script>
+
+</body>
+</html>

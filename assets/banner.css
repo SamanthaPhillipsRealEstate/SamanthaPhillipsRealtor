@@ -1,0 +1,12 @@
+/* Status banner — the scrolling SOLD / PENDING strip injected under the hero
+   on a property page. assets/banner.js adds the markup based on listings.js. */
+
+.status-banner{height:15vh;overflow:hidden;display:flex;align-items:center;position:relative}
+.status-banner .scroll-text{white-space:nowrap;font-size:4.5rem;font-weight:bold;color:#fcfcfc;pointer-events:none;transform:translateX(0);transition:transform 0s}
+
+.status-banner.is-sold{background-color:#963338}     /* dark red  */
+.status-banner.is-pending{background-color:#bab9b6}  /* soft gray */
+
+@media(max-width:768px){
+	.status-banner .scroll-text{font-size:2.5rem}
+}

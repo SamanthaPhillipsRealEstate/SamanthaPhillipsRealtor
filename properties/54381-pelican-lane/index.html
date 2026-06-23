@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>54381 Pelican Lane</title>
+	<style>
+		/* Global */
+		body {margin:0;font-family:sans-serif;background:#f9f9f9;color:#222;padding-bottom:78px}
+		/* Skip link (keyboard / screen-reader bypass) */
+		.skip-link {position:absolute;left:-999px;top:0;z-index:1100;background:#1c1c1c;color:#fff;padding:0.6rem 1rem;border-radius:0 0 6px 0;text-decoration:none}
+		.skip-link:focus {left:0}
+
+		/* Header */
+		#site-header {position:fixed;top:0;left:0;width:100%;z-index:1001;background:transparent;box-sizing:border-box;padding:0.5rem 1.5rem;transition:transform .3s ease}
+		#site-header.header-hidden {transform:translateY(-100%)}
+		.header-inner {display:flex;align-items:center;max-width:1200px;margin:0 auto;height:50px;position:relative}
+		.header-logo {height:32px;width:auto;object-fit:contain;position:absolute;left:50%;transform:translateX(-50%)}
+		.header-nav {display:flex;gap:1.75rem;margin-left:auto;align-items:center}
+		.header-nav a {color:#fff;text-decoration:none;font-size:0.85rem;letter-spacing:0.04em;white-space:nowrap;text-shadow:0 1px 4px rgba(0,0,0,0.6)}
+		.header-nav a:hover {color:#ddd}
+		.header-nav a:focus-visible {outline:2px solid #fff;outline-offset:3px;border-radius:2px}
+
+		/* Opening / Hero */
+		.hero-section {
+				position: relative;
+				width: 100%;
+				height: 100vh;
+				height: 100svh;
+				overflow: hidden;
+				background-color: #000;
+		}
+
+		.hero-background-image {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				object-position: center;
+				filter: brightness(0.8);
+		}
+
+		.hero-content {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				color: white;
+				text-align: center;
+				z-index: 10;
+		}
+
+		.hero-title {font-size: 4.5rem; font-weight: bold; margin-bottom: 0.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.7); line-height:1.1; white-space:nowrap}
+		.hero-subtitle {font-size:4.5rem;font-weight:bold;text-shadow:2px 2px 4px rgba(0,0,0,0.7)}
+
+		@media(max-width:768px){
+			.hero-title{font-size:min(2.25rem,7.5vw);white-space:normal;overflow-wrap:break-word}
+			.hero-subtitle{font-size:1.8rem}
+			.header-nav{width:100%;justify-content:space-between;margin-left:0;gap:0.5rem}
+			.header-nav a{font-size:0.72rem;letter-spacing:0.02em}
+			#site-header{padding:0.5rem 1rem}
+			.gallery{grid-template-columns:repeat(2,1fr)}
+			.details-section{padding:2rem 1rem}
+			#map iframe{height:300px}
+		}
+
+		/* Details section (kept inline-like styling converted to classes) */
+		.details-section {padding:4rem 1rem; text-align:center}
+		.details-inner {max-width:1100px;margin:0 auto;font-size:1.125rem;line-height:1.9;color:#333}
+		.features {list-style-type:disc;text-align:left;margin:2rem auto;max-width:900px;font-size:1rem;line-height:1.8}
+		.stats {display:flex;flex-wrap:wrap;justify-content:center;gap:0.5rem;margin-top:2.5rem}
+		.stat {border:2px solid #000;padding:0.5rem 0.8rem;min-width:110px;flex:0 1 auto;white-space:nowrap;font-size:0.9rem}
+
+		/* Gallery */
+		section.gallery-section {padding:4rem 1rem;text-align:center}
+		.gallery {
+			display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:1200px;margin:0 auto
+		}
+		.gallery a {position:relative;overflow:hidden;border-radius:8px;background:#eee;aspect-ratio:4/3;box-shadow:0 4px 8px rgba(0,0,0,0.1)}
+		.gallery img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .3s ease;display:block}
+		.gallery img:hover{transform:scale(1.05)}
+		.gallery a:nth-child(n+13){display:none}
+		.gallery.show-all a:nth-child(n+13){display:block}
+		.show-more-btn{margin-top:2rem;padding:0.8rem 2rem;background-color:#007bff;color:white;border:none;border-radius:5px;cursor:pointer;font-size:1rem}
+
+		/* Lightbox */
+		.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:9999;align-items:center;justify-content:center;padding:2rem}
+		.lightbox.is-open{display:flex}
+		.lightbox #lb-img{max-width:90%;max-height:85vh;border-radius:8px;box-shadow:0 10px 30px rgba(255,255,255,0.2)}
+		.lightbox button{background:none;border:none;color:#fff;cursor:pointer;font-size:3rem;position:absolute;top:50%;transform:translateY(-50%);padding:0 1rem;transition:.3s;line-height:1}
+		.lightbox button:hover{color:#bbb}
+		.lightbox .lb-prev{left:1rem}
+		.lightbox .lb-next{right:1rem}
+		.lightbox .lb-close{top:1rem;right:1.5rem;font-size:2rem;transform:none}
+
+		/* Map */
+		#map {padding:2rem 0;text-align:center}
+
+		/* Contact footer */
+		#contact {position:fixed;bottom:0;left:0;width:100%;z-index:1000;background:#1c1c1c;box-shadow:0 -2px 14px rgba(0,0,0,0.4);box-sizing:border-box;padding:0.6rem 1.5rem}
+		.contact-inner {display:flex;align-items:center;gap:1.25rem;max-width:1200px;margin:0 auto;position:relative}
+		.contact-right {display:flex;align-items:center;gap:1.25rem;margin-left:auto;text-align:right}
+		.contact-photo {width:40px;height:50px;object-fit:cover;object-position:top;border-radius:4px;flex-shrink:0}
+		.contact-name {font-size:0.9rem;font-weight:bold;margin:0;color:#fff;white-space:nowrap}
+		.contact-title {font-size:0.7rem;color:#aaa;margin:0;white-space:nowrap}
+		.contact-license {font-size:0.65rem;color:#9a9a9a;margin:0 0 0.4rem}
+		.contact-details {display:flex;flex-direction:row;gap:1.25rem;align-items:center;text-align:left;position:absolute;left:50%;transform:translateX(-50%)}
+		.contact-row {display:flex;flex-direction:column;line-height:1.25;align-items:center}
+		.contact-label {font-size:0.6rem;font-weight:bold;text-transform:uppercase;letter-spacing:0.06em;color:#9a9a9a}
+		.contact-row a {color:#e0e0e0;text-decoration:none;font-size:0.82rem;white-space:nowrap}
+		.contact-row a:hover {color:#3b9bff}
+		.contact-row a:focus-visible {outline:2px solid #3b9bff;outline-offset:2px;border-radius:2px}
+		.contact-logos {display:flex;align-items:center;gap:0.75rem;flex-shrink:0}
+		.contact-logo {height:30px;width:auto;object-fit:contain}
+		.contact-logos img:first-child {height:60px}
+		@media(max-width:600px){
+			.contact-logos{display:none}
+			.contact-right{display:none}
+			.contact-row:last-child{display:none}
+			.contact-details{position:static;transform:none;gap:1.25rem}
+			.contact-inner{justify-content:center}
+			.form-row{flex-direction:column;gap:0}
+		}
+
+		/* Form section */
+		.form-section {padding:3rem 1rem;text-align:center}
+		.form-section h2 {font-size:2rem;font-weight:bold;margin-bottom:0.5rem}
+		.form-section p {color:#555;margin-bottom:2rem;font-size:1rem}
+		.contact-form {max-width:560px;margin:0 auto;text-align:left}
+		.form-row {display:flex;gap:1rem}
+		.form-group {display:flex;flex-direction:column;margin-bottom:1.25rem;flex:1}
+		.form-group label {font-size:0.8rem;font-weight:bold;text-transform:uppercase;letter-spacing:0.05em;color:#555;margin-bottom:0.35rem}
+		.form-group input,
+		.form-group textarea {padding:0.7rem 0.9rem;border:1.5px solid #ccc;border-radius:4px;font-size:1rem;font-family:inherit;background:#fff;transition:border-color .2s}
+		.form-group input:focus,
+		.form-group textarea:focus {outline:none;border-color:#222}
+		.form-group textarea {resize:vertical;min-height:120px}
+		.submit-btn {width:100%;padding:0.85rem;background:#1c1c1c;color:#fff;border:none;border-radius:4px;font-size:1rem;font-weight:bold;letter-spacing:0.04em;cursor:pointer;transition:background .2s}
+		.submit-btn:hover {background:#333}
+	</style>
+	<!-- TikTok Pixel Code Start -->
+	<script>
+	!function (w, d, t) {
+	  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
+	var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script")
+	;n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+
+	  ttq.load('D8ESD53C77U6KT5BTOEG');
+	  ttq.page();
+	}(window, document, 'ttq');
+	</script>
+	<!-- TikTok Pixel Code End -->
+	<link rel="stylesheet" href="../../assets/banner.css">
+	<link rel="stylesheet" href="../../assets/nav.css">
+</head>
+<body>
+	<a href="#main" class="skip-link">Skip to main content</a>
+
+	<header id="site-header">
+		<div class="header-inner">
+			<img src="../../assets/logos/White SP Logo - With Box no text.png" alt="Samantha Phillips" class="header-logo">
+			<nav class="header-nav">
+				<a href="../../index.html">Featured Properties</a>
+				<a href="https://samanthap.kw.com/agent/samantha-phillips/799209">About Me</a>
+			</nav>
+		</div>
+	</header>
+
+	<main id="main" tabindex="-1">
+
+	<!-- Opening (hero) -->
+	<section class="hero-section">
+			<img src="images/05-Pelican.jpg" class="hero-background-image" alt="54381 Pelican Lane, Shelby Township">
+			<div class="hero-content">
+					<h1 class="hero-title">54381 Pelican Lane<br>Shelby Township</h1>
+			</div>
+	</section>
+
+	<!-- Details -->
+	<section class="details-section">
+
+		<div class="details-inner">
+			<p>Experience luxury pond-front living in this beautifully remodeled colonial in Shelby Township's sought-after Diegel Farms community. Built in 2012 and extensively updated in 2024, this exceptional 4-bedroom, 3.5-bath home offers over 5,000 square feet of finished living space, including a walkout lower level designed for entertaining. Enjoy breathtaking water views from nearly every window and a lifestyle that perfectly blends elegance, comfort, and recreation.</p>
+			<p>The heart of the home is the newly remodeled gourmet kitchen featuring porcelain countertops, an oversized island, spacious pantry, and a stylish wraparound butler's bar that flows seamlessly into the formal dining room and breakfast nook. High-end finishes and timeless design elements are showcased throughout the home, while the dramatic double staircase leads to four spacious bedrooms, each with walk-in closets.</p>
+			<p>The luxurious primary suite offers a private spa-like bath and an expansive walk-in closet. Additional highlights include upper-level laundry, a custom mudroom with direct garage access, and a 3-car attached garage. The finished walkout lower level is ideal for entertaining with a full kitchen, and separate bar with sitting area, and flexible living space perfect for gatherings or relaxing nights at home.</p>
+			<p>Step outside to enjoy the beautifully maintained swimmable pond, ideal for fishing, paddle boating, and canoeing. Located within the award-winning Utica Community Schools and close to shopping, dining, and everyday conveniences, this home offers the perfect combination of upscale living and serene waterfront surroundings. Don't miss this rare opportunity!</p>
+
+			<div class="stats">
+				<div class="stat">4 Bedrooms</div>
+				<div class="stat">4.1 Bathrooms</div>
+				<div class="stat">3,552 Sq Ft</div>
+				<div class="stat">3-Car Garage</div>
+				<div class="stat">Walk-Out Basement</div>
+			</div>
+		</div>
+
+	</section>
+
+	<!-- Gallery -->
+	<section class="gallery-section">
+		<div class="gallery" id="gallery">
+			<a href="images/01-Pelican.jpg" data-index="0" aria-label="View photo 1"><img src="images/01-Pelican.jpg" alt=""></a>
+			<a href="images/02-Pelican.jpg" data-index="1" aria-label="View photo 2"><img src="images/02-Pelican.jpg" alt=""></a>
+			<a href="images/03-Pelican.jpg" data-index="2" aria-label="View photo 3"><img src="images/03-Pelican.jpg" alt=""></a>
+			<a href="images/04-Pelican.jpg" data-index="3" aria-label="View photo 4"><img src="images/04-Pelican.jpg" alt=""></a>
+			<a href="images/05-Pelican.jpg" data-index="4" aria-label="View photo 5"><img src="images/05-Pelican.jpg" alt=""></a>
+			<a href="images/06-Pelican.jpg" data-index="5" aria-label="View photo 6"><img src="images/06-Pelican.jpg" alt=""></a>
+			<a href="images/07-Pelican.jpg" data-index="6" aria-label="View photo 7"><img src="images/07-Pelican.jpg" alt=""></a>
+			<a href="images/08-Pelican.jpg" data-index="7" aria-label="View photo 8"><img src="images/08-Pelican.jpg" alt=""></a>
+			<a href="images/09-Pelican.jpg" data-index="8" aria-label="View photo 9"><img src="images/09-Pelican.jpg" alt=""></a>
+			<a href="images/10-Pelican.jpg" data-index="9" aria-label="View photo 10"><img src="images/10-Pelican.jpg" alt=""></a>
+			<a href="images/11-Pelican.jpg" data-index="10" aria-label="View photo 11"><img src="images/11-Pelican.jpg" alt=""></a>
+			<a href="images/12-Pelican.jpg" data-index="11" aria-label="View photo 12"><img src="images/12-Pelican.jpg" alt=""></a>
+			<a href="images/13-Pelican.jpg" data-index="12" aria-label="View photo 13"><img src="images/13-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/14-Pelican.jpg" data-index="13" aria-label="View photo 14"><img src="images/14-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/15-Pelican.jpg" data-index="14" aria-label="View photo 15"><img src="images/15-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/16-Pelican.jpg" data-index="15" aria-label="View photo 16"><img src="images/16-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/17-Pelican.jpg" data-index="16" aria-label="View photo 17"><img src="images/17-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/18-Pelican.jpg" data-index="17" aria-label="View photo 18"><img src="images/18-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/19-Pelican.jpg" data-index="18" aria-label="View photo 19"><img src="images/19-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/20-Pelican.jpg" data-index="19" aria-label="View photo 20"><img src="images/20-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/21-Pelican.jpg" data-index="20" aria-label="View photo 21"><img src="images/21-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/22-Pelican.jpg" data-index="21" aria-label="View photo 22"><img src="images/22-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/23-Pelican.jpg" data-index="22" aria-label="View photo 23"><img src="images/23-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/24-Pelican.jpg" data-index="23" aria-label="View photo 24"><img src="images/24-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/25-Pelican.jpg" data-index="24" aria-label="View photo 25"><img src="images/25-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/26-Pelican.jpg" data-index="25" aria-label="View photo 26"><img src="images/26-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/27-Pelican.jpg" data-index="26" aria-label="View photo 27"><img src="images/27-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/28-Pelican.jpg" data-index="27" aria-label="View photo 28"><img src="images/28-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/29-Pelican.jpg" data-index="28" aria-label="View photo 29"><img src="images/29-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/30-Pelican.jpg" data-index="29" aria-label="View photo 30"><img src="images/30-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/31-Pelican.jpg" data-index="30" aria-label="View photo 31"><img src="images/31-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/32-Pelican.jpg" data-index="31" aria-label="View photo 32"><img src="images/32-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/33-Pelican.jpg" data-index="32" aria-label="View photo 33"><img src="images/33-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/34-Pelican.jpg" data-index="33" aria-label="View photo 34"><img src="images/34-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/35-Pelican.jpg" data-index="34" aria-label="View photo 35"><img src="images/35-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/36-Pelican.jpg" data-index="35" aria-label="View photo 36"><img src="images/36-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/37-Pelican.jpg" data-index="36" aria-label="View photo 37"><img src="images/37-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/38-Pelican.jpg" data-index="37" aria-label="View photo 38"><img src="images/38-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/39-Pelican.jpg" data-index="38" aria-label="View photo 39"><img src="images/39-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/40-Pelican.jpg" data-index="39" aria-label="View photo 40"><img src="images/40-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/41-Pelican.jpg" data-index="40" aria-label="View photo 41"><img src="images/41-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/42-Pelican.jpg" data-index="41" aria-label="View photo 42"><img src="images/42-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/43-Pelican.jpg" data-index="42" aria-label="View photo 43"><img src="images/43-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/44-Pelican.jpg" data-index="43" aria-label="View photo 44"><img src="images/44-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/45-Pelican.jpg" data-index="44" aria-label="View photo 45"><img src="images/45-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/46-Pelican.jpg" data-index="45" aria-label="View photo 46"><img src="images/46-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/47-Pelican.jpg" data-index="46" aria-label="View photo 47"><img src="images/47-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/48-Pelican.jpg" data-index="47" aria-label="View photo 48"><img src="images/48-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/49-Pelican.jpg" data-index="48" aria-label="View photo 49"><img src="images/49-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/50-Pelican.jpg" data-index="49" aria-label="View photo 50"><img src="images/50-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/51-Pelican.jpg" data-index="50" aria-label="View photo 51"><img src="images/51-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/52-Pelican.jpg" data-index="51" aria-label="View photo 52"><img src="images/52-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/53-Pelican.jpg" data-index="52" aria-label="View photo 53"><img src="images/53-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/54-Pelican.jpg" data-index="53" aria-label="View photo 54"><img src="images/54-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/55-Pelican.jpg" data-index="54" aria-label="View photo 55"><img src="images/55-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/56-Pelican.jpg" data-index="55" aria-label="View photo 56"><img src="images/56-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/57-Pelican.jpg" data-index="56" aria-label="View photo 57"><img src="images/57-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/58-Pelican.jpg" data-index="57" aria-label="View photo 58"><img src="images/58-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/59-Pelican.jpg" data-index="58" aria-label="View photo 59"><img src="images/59-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/60-Pelican.jpg" data-index="59" aria-label="View photo 60"><img src="images/60-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/61-Pelican.jpg" data-index="60" aria-label="View photo 61"><img src="images/61-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/62-Pelican.jpg" data-index="61" aria-label="View photo 62"><img src="images/62-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/63-Pelican.jpg" data-index="62" aria-label="View photo 63"><img src="images/63-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/64-Pelican.jpg" data-index="63" aria-label="View photo 64"><img src="images/64-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/65-Pelican.jpg" data-index="64" aria-label="View photo 65"><img src="images/65-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/66-Pelican.jpg" data-index="65" aria-label="View photo 66"><img src="images/66-Pelican.jpg" alt="" loading="lazy"></a>
+			<a href="images/67-Pelican.jpg" data-index="66" aria-label="View photo 67"><img src="images/67-Pelican.jpg" alt="" loading="lazy"></a>
+		</div>
+
+		<button class="show-more-btn" id="show-more-btn">Show More</button>
+
+		<!-- Video Tour -->
+		<div style="max-width:600px;margin:2rem auto 0;border-radius:8px;overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,0.1);aspect-ratio:16/9">
+			<iframe width="100%" height="100%" src="https://www.youtube.com/embed/MBnij7hmdss" title="54381 Pelican Lane" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display:block"></iframe>
+		</div>
+
+		<!-- Lightbox (JS-powered) -->
+		<div class="lightbox" id="lightbox" aria-hidden="true">
+			<button class="lb-close" aria-label="Close">×</button>
+			<button class="lb-prev" aria-label="Previous image">‹</button>
+			<img src="" alt="" id="lb-img">
+			<button class="lb-next" aria-label="Next image">›</button>
+		</div>
+	</section>
+
+	<script>
+	(function () {
+		var gallery = document.getElementById('gallery');
+		var items   = Array.from(gallery.querySelectorAll('a'));
+		var lb      = document.getElementById('lightbox');
+		var lbImg   = document.getElementById('lb-img');
+		var current = 0;
+
+		function openLb(index) {
+			current = index;
+			lbImg.src = items[current].getAttribute('href');
+			lbImg.alt = 'Enlarged property photo ' + (current + 1);
+			lb.classList.add('is-open');
+			lb.setAttribute('aria-hidden', 'false');
+		}
+		function closeLb() {
+			lb.classList.remove('is-open');
+			lb.setAttribute('aria-hidden', 'true');
+			lbImg.src = '';
+		}
+		function prev() { openLb((current - 1 + items.length) % items.length); }
+		function next() { openLb((current + 1) % items.length); }
+
+		items.forEach(function (a, i) {
+			a.addEventListener('click', function (e) { e.preventDefault(); openLb(i); });
+		});
+
+		document.querySelector('.lb-close').addEventListener('click', closeLb);
+		document.querySelector('.lb-prev').addEventListener('click', prev);
+		document.querySelector('.lb-next').addEventListener('click', next);
+
+		lb.addEventListener('click', function (e) { if (e.target === lb) closeLb(); });
+
+		document.addEventListener('keydown', function (e) {
+			if (!lb.classList.contains('is-open')) return;
+			if (e.key === 'Escape')     closeLb();
+			if (e.key === 'ArrowLeft')  prev();
+			if (e.key === 'ArrowRight') next();
+		});
+
+		document.getElementById('show-more-btn').addEventListener('click', function () {
+			gallery.classList.add('show-all');
+			this.style.display = 'none';
+		});
+	})();
+	</script>
+
+	</main>
+
+	<!-- Map -->
+	<section id="map">
+		<iframe src="https://maps.google.com/maps?q=54381+Pelican+Lane,+Shelby+Township,+MI&output=embed" title="Map of 54381 Pelican Lane" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+	</section>
+
+	<!-- Form -->
+	<section class="form-section">
+		<h2>Interested? Let's Talk!</h2>
+
+		<br>
+		<br>
+
+		<form class="contact-form">
+			<input type="hidden" id="property" name="Property" value="54381 Pelican Lane">
+			<div class="form-row">
+				<div class="form-group">
+					<label for="first-name">First Name <span style="color:#c00">*</span></label>
+					<input type="text" id="first-name" name="First Name" required placeholder="Jane">
+				</div>
+				<div class="form-group">
+					<label for="last-name">Last Name <span style="color:#c00">*</span></label>
+					<input type="text" id="last-name" name="Last Name" required placeholder="Smith">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="phone">Phone Number <span style="color:#c00">*</span></label>
+				<input type="tel" id="phone" name="Phone Number" required placeholder="(555) 555-5555">
+			</div>
+
+			<div class="form-group">
+				<label for="email">Email <span style="color:#c00">*</span></label>
+				<input type="email" id="email" name="Email" required placeholder="jane@example.com">
+			</div>
+
+			<div class="form-group">
+				<label for="comments">Comments</label>
+				<textarea id="comments" name="Comments" placeholder="Any questions or preferred showing times…"></textarea>
+			</div>
+
+			<button type="submit" class="submit-btn" id="submit-btn">Send</button>
+			<p id="form-message" style="margin-top:1rem;text-align:center;font-size:0.95rem;display:none"></p>
+		</form>
+	</section>
+
+	<!-- Contact -->
+	<section id="contact">
+		<div class="contact-inner">
+			<div class="contact-logos">
+				<img src="../../assets/logos/LOGO SP Selected.png" alt="Samantha Phillips" class="contact-logo">
+				<img src="../../assets/logos/Web_KWDomain_logo.png" alt="Keller Williams" class="contact-logo">
+			</div>
+			<div class="contact-details">
+				<div class="contact-row">
+					<span class="contact-label">Mobile</span>
+					<a href="tel:+12488854969">(248) 885-4969</a>
+				</div>
+				<div class="contact-row">
+					<span class="contact-label">Office</span>
+					<a href="tel:+12485900800">(248) 590-0800</a>
+				</div>
+				<div class="contact-row">
+					<span class="contact-label">Email</span>
+					<a href="mailto:samanthaphillipsrealtor@gmail.com">samanthaphillipsrealtor@gmail.com</a>
+				</div>
+			</div>
+			<div class="contact-right">
+				<div>
+					<h2 class="contact-name">Samantha Phillips</h2>
+					<p class="contact-title">REALTOR®</p>
+					<p class="contact-license">License #: 434142</p>
+				</div>
+				<img src="../../assets/headshots/02_06077-Samantha-Samantha Phillips Hi-Res CROPPED.jpg" alt="Samantha Phillips" class="contact-photo">
+			</div>
+		</div>
+	</section>
+
+	<script>
+	(function () {
+		var header = document.getElementById('site-header');
+		var lastY  = 0;
+		window.addEventListener('scroll', function () {
+			var y = window.scrollY;
+			if (y > lastY && y > 10) {
+				header.classList.add('header-hidden');
+			} else {
+				header.classList.remove('header-hidden');
+			}
+			lastY = y;
+		});
+	})();
+	</script>
+
+	<script>
+	(function () {
+		var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzVB4Bu2YXiCDKd0danyLegQFIVeRvPQS6gOrtPhXM2_dGoT4qRuX3ODGodTuN9HmyF/exec";
+
+		function sha256(str) {
+			var input = str.trim().toLowerCase();
+			return crypto.subtle.digest('SHA-256', new TextEncoder().encode(input))
+				.then(function (buf) {
+					return Array.from(new Uint8Array(buf)).map(function (b) {
+						return b.toString(16).padStart(2, '0');
+					}).join('');
+				});
+		}
+
+		document.getElementById('property').value = document.title;
+
+		document.querySelector('.contact-form').addEventListener('submit', function (e) {
+			e.preventDefault();
+			var btn = document.getElementById('submit-btn');
+			var msg = document.getElementById('form-message');
+			btn.disabled = true;
+			btn.textContent = 'Sending…';
+
+			var payload = {
+				property:  document.getElementById('property').value,
+				firstName: document.getElementById('first-name').value,
+				lastName:  document.getElementById('last-name').value,
+				phone:     document.getElementById('phone').value,
+				email:     document.getElementById('email').value,
+				comments:  document.getElementById('comments').value
+			};
+
+			var formBody = Object.keys(payload).map(function (k) {
+				return encodeURIComponent(k) + '=' + encodeURIComponent(payload[k]);
+			}).join('&');
+
+			fetch(SCRIPT_URL, {
+				method: 'POST',
+				mode: 'no-cors',
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+				body: formBody
+			})
+			.then(function () {
+				return Promise.all([sha256(payload.email), sha256(payload.phone)]);
+			})
+			.then(function (hashed) {
+				ttq.identify({
+					email:        hashed[0],
+					phone_number: hashed[1]
+				});
+				ttq.track('Lead', {
+					contents: [{
+						content_id:   '54381-Pelican-Lane',
+						content_type: 'product',
+						content_name: document.title
+					}],
+					value:    50,
+					currency: 'USD'
+				});
+				msg.style.color = '#2a7a2a';
+				msg.textContent = "Thank you! We'll be in touch.";
+				msg.style.display = 'block';
+				e.target.reset();
+				document.getElementById('property').value = document.title;
+				btn.disabled = false;
+				btn.textContent = 'Send';
+			})
+			.catch(function () {
+				msg.style.color = '#c00';
+				msg.textContent = 'Network error. Please try again.';
+				msg.style.display = 'block';
+				btn.disabled = false;
+				btn.textContent = 'Send';
+			});
+		});
+	})();
+	</script>
+
+	<!-- Property data + auto status banner -->
+	<script src="../../listings.js"></script>
+	<script src="../../assets/banner.js"></script>
+	<script src="../../assets/nav.js"></script>
+
+</body>
+</html>

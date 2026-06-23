@@ -1,0 +1,57 @@
+/* Mobile navigation — hamburger toggle + slide-in side drawer.
+   Shown only on small screens (<=768px); on desktop the normal
+   .header-nav links remain. Markup is built by assets/nav.js, which
+   clones the existing header links so each page keeps its own hrefs. */
+
+/* Hamburger button (hidden on desktop) */
+.nav-toggle{
+	display:none;
+	position:absolute;right:0;top:50%;transform:translateY(-50%);
+	width:40px;height:40px;padding:9px;box-sizing:border-box;
+	background:none;border:0;cursor:pointer;z-index:1002;
+	flex-direction:column;justify-content:space-between;
+}
+.nav-toggle span{
+	display:block;width:100%;height:2px;background:#fff;border-radius:2px;
+	box-shadow:0 1px 3px rgba(0,0,0,0.6);
+	transition:transform .25s ease, opacity .2s ease;
+}
+.nav-toggle:focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:4px}
+
+/* Backdrop behind the drawer */
+.nav-backdrop{
+	position:fixed;inset:0;background:rgba(0,0,0,0.5);
+	opacity:0;visibility:hidden;transition:opacity .25s ease, visibility .25s ease;
+	z-index:1050;
+}
+.nav-backdrop.is-open{opacity:1;visibility:visible}
+
+/* The drawer itself (slides in from the right) */
+.nav-drawer{
+	position:fixed;top:0;right:0;height:100%;width:min(78vw,300px);
+	background:rgba(255,255,255,0.75);
+	-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+	box-shadow:-4px 0 20px rgba(0,0,0,0.25);
+	transform:translateX(100%);transition:transform .28s ease;
+	z-index:1051;display:flex;flex-direction:column;
+	padding:4.5rem 1.5rem 2rem;box-sizing:border-box;
+}
+.nav-drawer.is-open{transform:translateX(0)}
+.nav-drawer a{
+	color:#111;text-decoration:none;font-size:1.05rem;letter-spacing:0.03em;
+	padding:0.95rem 0.25rem;border-bottom:1px solid rgba(0,0,0,0.12);
+}
+.nav-drawer a:hover{color:#555}
+.nav-drawer a:focus-visible{outline:2px solid #111;outline-offset:2px;border-radius:2px}
+.nav-drawer-close{
+	position:absolute;top:0.9rem;right:1.1rem;
+	background:none;border:0;color:#111;font-size:2rem;line-height:1;
+	cursor:pointer;padding:0.25rem 0.5rem;
+}
+.nav-drawer-close:focus-visible{outline:2px solid #111;outline-offset:2px;border-radius:4px}
+
+@media(max-width:768px){
+	/* Higher specificity (#id) so this wins over the inline mobile rules */
+	#site-header .header-nav{display:none}
+	.nav-toggle{display:flex}
+}

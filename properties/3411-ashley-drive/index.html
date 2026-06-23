@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>3411 Ashley Drive</title>
+	<style>
+		/* Global */
+		body {margin:0;font-family:sans-serif;background:#f9f9f9;color:#222;padding-bottom:78px}
+		/* Skip link (keyboard / screen-reader bypass) */
+		.skip-link {position:absolute;left:-999px;top:0;z-index:1100;background:#1c1c1c;color:#fff;padding:0.6rem 1rem;border-radius:0 0 6px 0;text-decoration:none}
+		.skip-link:focus {left:0}
+
+		/* Header */
+		#site-header {position:fixed;top:0;left:0;width:100%;z-index:1001;background:transparent;box-sizing:border-box;padding:0.5rem 1.5rem;transition:transform .3s ease}
+		#site-header.header-hidden {transform:translateY(-100%)}
+		.header-inner {display:flex;align-items:center;max-width:1200px;margin:0 auto;height:50px;position:relative}
+		.header-logo {height:32px;width:auto;object-fit:contain;position:absolute;left:50%;transform:translateX(-50%)}
+		.header-nav {display:flex;gap:1.75rem;margin-left:auto;align-items:center}
+		.header-nav a {color:#fff;text-decoration:none;font-size:0.85rem;letter-spacing:0.04em;white-space:nowrap;text-shadow:0 1px 4px rgba(0,0,0,0.6)}
+		.header-nav a:hover {color:#ddd}
+		.header-nav a:focus-visible {outline:2px solid #fff;outline-offset:3px;border-radius:2px}
+
+		/* Opening / Hero */
+		.hero-section {
+				position: relative;
+				width: 100%;
+				height: 100vh;
+				height: 100svh;
+				overflow: hidden;
+				background-color: #000;
+		}
+
+		.hero-background-image {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				object-position: center;
+				filter: brightness(0.8);
+		}
+
+		.hero-content {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				color: white;
+				text-align: center;
+				z-index: 10;
+		}
+
+		.hero-title {font-size: 4.5rem; font-weight: bold; margin-bottom: 0.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.7); line-height:1.1; white-space:nowrap}
+		.hero-subtitle {font-size:4.5rem;font-weight:bold;text-shadow:2px 2px 4px rgba(0,0,0,0.7)}
+
+		@media(max-width:768px){
+			.hero-title{font-size:min(2.25rem,7.5vw);white-space:normal;overflow-wrap:break-word}
+			.hero-subtitle{font-size:1.8rem}
+			.header-nav{width:100%;justify-content:space-between;margin-left:0;gap:0.5rem}
+			.header-nav a{font-size:0.72rem;letter-spacing:0.02em}
+			#site-header{padding:0.5rem 1rem}
+			.gallery{grid-template-columns:repeat(2,1fr)}
+			.details-section{padding:2rem 1rem}
+			#map iframe{height:300px}
+		}
+
+		/* Details section (kept inline-like styling converted to classes) */
+		.details-section {padding:4rem 1rem; text-align:center}
+		.details-inner {max-width:1100px;margin:0 auto;font-size:1.125rem;line-height:1.9;color:#333}
+		.features {list-style-type:disc;text-align:left;width:fit-content;margin:2rem auto;font-size:1rem;line-height:1.8}
+		.stats {display:flex;flex-wrap:wrap;justify-content:center;gap:0.5rem;margin-top:2.5rem}
+		.stat {border:2px solid #000;padding:0.5rem 0.8rem;min-width:110px;flex:0 1 auto;white-space:nowrap;font-size:0.9rem}
+
+		/* Gallery */
+		section.gallery-section {padding:4rem 1rem;text-align:center}
+		.gallery {
+			display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:1200px;margin:0 auto
+		}
+		.gallery a {position:relative;overflow:hidden;border-radius:8px;background:#eee;aspect-ratio:4/3;box-shadow:0 4px 8px rgba(0,0,0,0.1)}
+		.gallery img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .3s ease;display:block}
+		.gallery img:hover{transform:scale(1.05)}
+		.gallery a:nth-child(n+13){display:none}
+		.gallery.show-all a:nth-child(n+13){display:block}
+		.show-more-btn{margin-top:2rem;padding:0.8rem 2rem;background-color:#007bff;color:white;border:none;border-radius:5px;cursor:pointer;font-size:1rem}
+
+		/* Lightbox */
+		.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:9999;align-items:center;justify-content:center;padding:2rem}
+		.lightbox.is-open{display:flex}
+		.lightbox #lb-img{max-width:90%;max-height:85vh;border-radius:8px;box-shadow:0 10px 30px rgba(255,255,255,0.2)}
+		.lightbox button{background:none;border:none;color:#fff;cursor:pointer;font-size:3rem;position:absolute;top:50%;transform:translateY(-50%);padding:0 1rem;transition:.3s;line-height:1}
+		.lightbox button:hover{color:#bbb}
+		.lightbox .lb-prev{left:1rem}
+		.lightbox .lb-next{right:1rem}
+		.lightbox .lb-close{top:1rem;right:1.5rem;font-size:2rem;transform:none}
+
+		/* Floor Plan */
+		.fp-section {padding:2rem 1rem;text-align:center}
+		.fp-tile {max-width:432px;margin:0 auto;border-radius:8px;overflow:hidden;background:#fff;box-shadow:0 4px 8px rgba(0,0,0,0.1)}
+		.fp-tile img {width:100%;height:auto;display:block;transition:opacity .2s ease}
+		.fp-tile img:hover {opacity:.85}
+		.fp-lightbox {display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);align-items:center;justify-content:center;z-index:9999;padding:2rem}
+		.fp-lightbox:target {display:flex}
+		.fp-lightbox img {max-width:90vw;max-height:90vh;border-radius:8px;box-shadow:0 10px 30px rgba(255,255,255,0.2);animation:fp-zoom .3s ease}
+		@keyframes fp-zoom {from{transform:scale(0.95);opacity:0}to{transform:scale(1);opacity:1}}
+		.fp-close {position:absolute;top:1rem;right:1.5rem;font-size:2rem;color:#fff;text-decoration:none;transition:opacity .2s ease}
+		.fp-close:hover {opacity:.8}
+
+		/* Map */
+		#map {padding:2rem 0;text-align:center}
+
+		/* Contact footer */
+		#contact {position:fixed;bottom:0;left:0;width:100%;z-index:1000;background:#1c1c1c;box-shadow:0 -2px 14px rgba(0,0,0,0.4);box-sizing:border-box;padding:0.6rem 1.5rem}
+		.contact-inner {display:flex;align-items:center;gap:1.25rem;max-width:1200px;margin:0 auto;position:relative}
+		.contact-right {display:flex;align-items:center;gap:1.25rem;margin-left:auto;text-align:right}
+		.contact-photo {width:40px;height:50px;object-fit:cover;object-position:top;border-radius:4px;flex-shrink:0}
+		.contact-name {font-size:0.9rem;font-weight:bold;margin:0;color:#fff;white-space:nowrap}
+		.contact-title {font-size:0.7rem;color:#aaa;margin:0;white-space:nowrap}
+		.contact-license {font-size:0.65rem;color:#9a9a9a;margin:0 0 0.4rem}
+		.contact-details {display:flex;flex-direction:row;gap:1.25rem;align-items:center;text-align:left;position:absolute;left:50%;transform:translateX(-50%)}
+		.contact-row {display:flex;flex-direction:column;line-height:1.25;align-items:center}
+		.contact-label {font-size:0.6rem;font-weight:bold;text-transform:uppercase;letter-spacing:0.06em;color:#9a9a9a}
+		.contact-row a {color:#e0e0e0;text-decoration:none;font-size:0.82rem;white-space:nowrap}
+		.contact-row a:hover {color:#3b9bff}
+		.contact-row a:focus-visible {outline:2px solid #3b9bff;outline-offset:2px;border-radius:2px}
+		.contact-logos {display:flex;align-items:center;gap:0.75rem;flex-shrink:0}
+		.contact-logo {height:30px;width:auto;object-fit:contain}
+		.contact-logos img:first-child {height:60px}
+		@media(max-width:600px){
+			.contact-logos{display:none}
+			.contact-right{display:none}
+			.contact-row:last-child{display:none}
+			.contact-details{position:static;transform:none;gap:1.25rem}
+			.contact-inner{justify-content:center}
+		}
+	</style>
+	<link rel="stylesheet" href="../../assets/banner.css">
+	<link rel="stylesheet" href="../../assets/nav.css">
+</head>
+<body>
+
+	<a href="#main" class="skip-link">Skip to main content</a>
+
+	<header id="site-header">
+		<div class="header-inner">
+			<img src="../../assets/logos/White SP Logo - With Box no text.png" alt="Samantha Phillips" class="header-logo">
+			<nav class="header-nav">
+				<a href="../../index.html">Featured Properties</a>
+				<a href="https://samanthap.kw.com/agent/samantha-phillips/799209">About Me</a>
+			</nav>
+		</div>
+	</header>
+
+	<main id="main" tabindex="-1">
+	<!-- Opening (hero) -->
+	<section class="hero-section">
+			<img src="images/01-Ashley.jpg" class="hero-background-image" alt="3411 Ashley Drive, Lake Orion">
+			<div class="hero-content">
+					<h1 class="hero-title">3411 Ashley Drive<br>Lake Orion</h1>
+			</div>
+	</section>
+
+	<!-- Details -->
+	<section class="details-section">
+
+		<div class="details-inner">
+			<p>Welcome to 3411 Ashley—beautifully updated over the past two years to offer a seamless blend of modern style and everyday comfort. From the moment you step inside, you’ll notice brand-new carpet and flooring (2023), solid-core doors throughout all bedrooms and baths, and smart switches that allow you to control lighting and ceiling fans with Alexa or similar devices.</p>
+			<p>The heart of the home is the fully remodeled kitchen, thoughtfully redesigned with new cabinetry, a stylish tile backsplash, and a spacious island perfect for meal prep or casual dining. A sleek stainless steel GE appliance suite, recessed lighting, and upgraded PEX plumbing complete this impressive space. Just off the kitchen, the expansive family room is ideal for relaxing or entertaining, featuring a wainscoting accent wall, recessed lighting, and a cozy natural fireplace.</p>
+			<p>The entry level includes two generously sized bedrooms and a completely reimagined primary bathroom with a custom tile shower, heated tile floors, and a modern vanity. Upstairs, you’ll find two additional bedrooms along with a beautifully updated full bath featuring new tile and vanity—perfect for family or guests.</p>
+			<p>The full basement offers ample storage and excellent potential for finishing into additional living space.</p>
+			<p>Ideally located just minutes from Great Lakes Crossing Outlets, I-75, Kroger, Starbucks, and Home Depot, this home offers both tranquility and convenience. The neighborhood HOA also provides private access to all-sports Voorheis Lake.</p>
+			<p>Don’t miss the opportunity to own this thoughtfully upgraded home in a prime Orion Township location—schedule your private showing today!</p>
+			<p>Recent updates include:</p>
+			<ul class="features">
+			<li>Furnace (2020)</li>
+			<li>GE Profile washer and dryer (2023)</li>
+			<li>Whole-house humidifier (2023)</li>
+			<li>Hot water heater (2025)</li>
+			<li>200 sq. ft. brick paver patio</li>
+			<li>All new overhead lighting and ceiling fans (2023)</li>
+			</ul>
+
+			<div class="stats">
+				<div class="stat">4 Bedrooms</div>
+				<div class="stat">2 Bathrooms</div>
+				<div class="stat">1,900 Sq Ft</div>
+				<div class="stat">Beach Access</div>
+			</div>
+		</div>
+
+	</section>
+
+	<!-- Gallery -->
+	<section class="gallery-section">
+		<div class="gallery" id="gallery">
+			<a href="images/01-Ashley.jpg" data-index="0" aria-label="View photo 1"><img src="images/01-Ashley.jpg" alt=""></a>
+			<a href="images/02-Ashley.jpg" data-index="1" aria-label="View photo 2"><img src="images/02-Ashley.jpg" alt=""></a>
+			<a href="images/03-Ashley.jpg" data-index="2" aria-label="View photo 3"><img src="images/03-Ashley.jpg" alt=""></a>
+			<a href="images/04-Ashley.jpg" data-index="3" aria-label="View photo 4"><img src="images/04-Ashley.jpg" alt=""></a>
+			<a href="images/05-Ashley.jpg" data-index="4" aria-label="View photo 5"><img src="images/05-Ashley.jpg" alt=""></a>
+			<a href="images/06-Ashley.jpg" data-index="5" aria-label="View photo 6"><img src="images/06-Ashley.jpg" alt=""></a>
+			<a href="images/07-Ashley.jpg" data-index="6" aria-label="View photo 7"><img src="images/07-Ashley.jpg" alt=""></a>
+			<a href="images/08-Ashley.jpg" data-index="7" aria-label="View photo 8"><img src="images/08-Ashley.jpg" alt=""></a>
+			<a href="images/09-Ashley.jpg" data-index="8" aria-label="View photo 9"><img src="images/09-Ashley.jpg" alt=""></a>
+			<a href="images/10-Ashley.jpg" data-index="9" aria-label="View photo 10"><img src="images/10-Ashley.jpg" alt=""></a>
+			<a href="images/11-Ashley.jpg" data-index="10" aria-label="View photo 11"><img src="images/11-Ashley.jpg" alt=""></a>
+			<a href="images/12-Ashley.jpg" data-index="11" aria-label="View photo 12"><img src="images/12-Ashley.jpg" alt=""></a>
+			<a href="images/13-Ashley.jpg" data-index="12" aria-label="View photo 13"><img src="images/13-Ashley.jpg" alt="" loading="lazy"></a>
+			<a href="images/14-Ashley.jpg" data-index="13" aria-label="View photo 14"><img src="images/14-Ashley.jpg" alt="" loading="lazy"></a>
+			<a href="images/15-Ashley.jpg" data-index="14" aria-label="View photo 15"><img src="images/15-Ashley.jpg" alt="" loading="lazy"></a>
+			<a href="images/16-Ashley.jpg" data-index="15" aria-label="View photo 16"><img src="images/16-Ashley.jpg" alt="" loading="lazy"></a>
+			<a href="images/17-Ashley.jpg" data-index="16" aria-label="View photo 17"><img src="images/17-Ashley.jpg" alt="" loading="lazy"></a>
+			<a href="images/18-Ashley.jpg" data-index="17" aria-label="View photo 18"><img src="images/18-Ashley.jpg" alt="" loading="lazy"></a>
+			<a href="images/19-Ashley.jpg" data-index="18" aria-label="View photo 19"><img src="images/19-Ashley.jpg" alt="" loading="lazy"></a>
+			<a href="images/20-Ashley.jpg" data-index="19" aria-label="View photo 20"><img src="images/20-Ashley.jpg" alt="" loading="lazy"></a>
+			<a href="images/21-Ashley.jpg" data-index="20" aria-label="View photo 21"><img src="images/21-Ashley.jpg" alt="" loading="lazy"></a>
+			<a href="images/22-Ashley.jpg" data-index="21" aria-label="View photo 22"><img src="images/22-Ashley.jpg" alt="" loading="lazy"></a>
+			<a href="images/23-Ashley.jpg" data-index="22" aria-label="View photo 23"><img src="images/23-Ashley.jpg" alt="" loading="lazy"></a>
+			<a href="images/24-Ashley.jpg" data-index="23" aria-label="View photo 24"><img src="images/24-Ashley.jpg" alt="" loading="lazy"></a>
+			<a href="images/25-Ashley.jpg" data-index="24" aria-label="View photo 25"><img src="images/25-Ashley.jpg" alt="" loading="lazy"></a>
+			<a href="images/26-Ashley.jpg" data-index="25" aria-label="View photo 26"><img src="images/26-Ashley.jpg" alt="" loading="lazy"></a>
+			<a href="images/27-Ashley.jpg" data-index="26" aria-label="View photo 27"><img src="images/27-Ashley.jpg" alt="" loading="lazy"></a>
+			<a href="images/28-Ashley.jpg" data-index="27" aria-label="View photo 28"><img src="images/28-Ashley.jpg" alt="" loading="lazy"></a>
+			<a href="images/29-Ashley.jpg" data-index="28" aria-label="View photo 29"><img src="images/29-Ashley.jpg" alt="" loading="lazy"></a>
+			<a href="images/30-Ashley.jpg" data-index="29" aria-label="View photo 30"><img src="images/30-Ashley.jpg" alt="" loading="lazy"></a>
+			<a href="images/31-Ashley.jpg" data-index="30" aria-label="View photo 31"><img src="images/31-Ashley.jpg" alt="" loading="lazy"></a>
+			<a href="images/32-Ashley.jpg" data-index="31" aria-label="View photo 32"><img src="images/32-Ashley.jpg" alt="" loading="lazy"></a>
+			<a href="images/33-Ashley.jpg" data-index="32" aria-label="View photo 33"><img src="images/33-Ashley.jpg" alt="" loading="lazy"></a>
+			<a href="images/34-Ashley.jpg" data-index="33" aria-label="View photo 34"><img src="images/34-Ashley.jpg" alt="" loading="lazy"></a>
+		</div>
+		<button class="show-more-btn" id="show-more-btn">Show More</button>
+		<section class="fp-section">
+			<div class="fp-tile">
+				<a href="#fp-img1">
+					<img src="images/Floor Plan - ALL.png" alt="Floor Plan">
+				</a>
+			</div>
+		</section>
+
+		<div id="fp-img1" class="fp-lightbox">
+			<a href="#_" class="fp-close" aria-label="Close">×</a>
+			<img src="images/Floor Plan - ALL.png" alt="Floor Plan Full">
+		</div>
+
+		<!-- Lightbox (JS-powered) -->
+		<div class="lightbox" id="lightbox" aria-hidden="true">
+			<button class="lb-close" aria-label="Close">×</button>
+			<button class="lb-prev" aria-label="Previous image">‹</button>
+			<img src="" alt="" id="lb-img">
+			<button class="lb-next" aria-label="Next image">›</button>
+		</div>
+	</section>
+
+	<script>
+	(function () {
+		var gallery = document.getElementById('gallery');
+		var items   = Array.from(gallery.querySelectorAll('a'));
+		var lb      = document.getElementById('lightbox');
+		var lbImg   = document.getElementById('lb-img');
+		var current = 0;
+
+		function openLb(index) {
+			current = index;
+			lbImg.src = items[current].getAttribute('href');
+			lbImg.alt = 'Enlarged property photo ' + (current + 1);
+			lb.classList.add('is-open');
+			lb.setAttribute('aria-hidden', 'false');
+		}
+		function closeLb() {
+			lb.classList.remove('is-open');
+			lb.setAttribute('aria-hidden', 'true');
+			lbImg.src = '';
+		}
+		function prev() { openLb((current - 1 + items.length) % items.length); }
+		function next() { openLb((current + 1) % items.length); }
+
+		items.forEach(function (a, i) {
+			a.addEventListener('click', function (e) { e.preventDefault(); openLb(i); });
+		});
+
+		document.querySelector('.lb-close').addEventListener('click', closeLb);
+		document.querySelector('.lb-prev').addEventListener('click', prev);
+		document.querySelector('.lb-next').addEventListener('click', next);
+
+		lb.addEventListener('click', function (e) { if (e.target === lb) closeLb(); });
+
+		document.addEventListener('keydown', function (e) {
+			if (!lb.classList.contains('is-open')) return;
+			if (e.key === 'Escape')     closeLb();
+			if (e.key === 'ArrowLeft')  prev();
+			if (e.key === 'ArrowRight') next();
+		});
+
+		document.getElementById('show-more-btn').addEventListener('click', function () {
+			gallery.classList.add('show-all');
+			this.style.display = 'none';
+		});
+	})();
+	</script>
+	</main>
+
+	<!-- Map -->
+	<section id="map">
+		<iframe title="Map of 3411 Ashley Drive, Lake Orion" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2930.7374452743325!2d-83.3003213!3d42.73044759999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8824946694261829%3A0x4bdbe7d57b1245ff!2s3411%20Ashley%20Dr%2C%20Orion%20Township%2C%20MI%2048359!5e0!3m2!1sen!2sus!4v1776269718413!5m2!1sen!2sus" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+	</section>
+
+	<!-- Contact -->
+	<section id="contact">
+		<div class="contact-inner">
+			<div class="contact-logos">
+				<img src="../../assets/logos/LOGO SP Selected.png" alt="Samantha Phillips" class="contact-logo">
+				<img src="../../assets/logos/Web_KWDomain_logo.png" alt="Keller Williams" class="contact-logo">
+			</div>
+			<div class="contact-details">
+				<div class="contact-row">
+					<span class="contact-label">Mobile</span>
+					<a href="tel:+12488854969">(248) 885-4969</a>
+				</div>
+				<div class="contact-row">
+					<span class="contact-label">Office</span>
+					<a href="tel:+12485900800">(248) 590-0800</a>
+				</div>
+				<div class="contact-row">
+					<span class="contact-label">Email</span>
+					<a href="mailto:samanthaphillipsrealtor@gmail.com">samanthaphillipsrealtor@gmail.com</a>
+				</div>
+			</div>
+			<div class="contact-right">
+				<div>
+					<h2 class="contact-name">Samantha Phillips</h2>
+					<p class="contact-title">REALTOR®</p>
+					<p class="contact-license">License #: 434142</p>
+				</div>
+				<img src="../../assets/headshots/02_06077-Samantha-Samantha Phillips Hi-Res CROPPED.jpg" alt="Samantha Phillips" class="contact-photo">
+			</div>
+		</div>
+	</section>
+
+	<script>
+	(function () {
+		var header = document.getElementById('site-header');
+		var lastY  = 0;
+		window.addEventListener('scroll', function () {
+			var y = window.scrollY;
+			if (y > lastY && y > 10) {
+				header.classList.add('header-hidden');
+			} else {
+				header.classList.remove('header-hidden');
+			}
+			lastY = y;
+		});
+	})();
+	</script>
+
+	<!-- Property data + auto status banner -->
+	<script src="../../listings.js"></script>
+	<script src="../../assets/banner.js"></script>
+	<script src="../../assets/nav.js"></script>
+
+</body>
+</html>

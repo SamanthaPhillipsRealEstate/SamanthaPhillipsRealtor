@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Featured Properties | Samantha Phillips Real Estate</title>
+	<link rel="stylesheet" href="assets/featured.css">
+	<link rel="stylesheet" href="assets/nav.css">
+	<style>
+		/* Global */
+		body {margin:0;font-family:sans-serif;background:#f9f9f9;color:#222;padding-bottom:78px}
+
+		/* Skip link (keyboard / screen-reader bypass) */
+		.skip-link {position:absolute;left:-999px;top:0;z-index:1100;background:#1c1c1c;color:#fff;padding:0.6rem 1rem;border-radius:0 0 6px 0;text-decoration:none}
+		.skip-link:focus {left:0}
+
+		/* Header (shared with listing pages) */
+		#site-header {position:fixed;top:0;left:0;width:100%;z-index:1001;background:transparent;box-sizing:border-box;padding:0.5rem 1.5rem;transition:transform .3s ease}
+		#site-header.header-hidden {transform:translateY(-100%)}
+		.header-inner {display:flex;align-items:center;max-width:1200px;margin:0 auto;height:50px;position:relative}
+		.header-logo {height:32px;width:auto;object-fit:contain;position:absolute;left:50%;transform:translateX(-50%)}
+		.header-nav {display:flex;gap:1.75rem;margin-left:auto;align-items:center}
+		.header-nav a {color:#fff;text-decoration:none;font-size:0.85rem;letter-spacing:0.04em;white-space:nowrap;text-shadow:0 1px 4px rgba(0,0,0,0.6)}
+		.header-nav a:hover {color:#ddd}
+		.header-nav a:focus-visible {outline:2px solid #fff;outline-offset:3px;border-radius:2px}
+		@media(max-width:768px){
+			.header-nav{width:100%;justify-content:space-between;margin-left:0;gap:0.5rem}
+			.header-nav a{font-size:0.72rem;letter-spacing:0.02em}
+			#site-header{padding:0.5rem 1rem}
+		}
+
+		/* Featured hero (fp-header)
+		   The fixed header (#site-header, 66px tall: 50px inner + 0.5rem top/bottom
+		   padding) overlays the top of this hero. The hero is made taller by exactly
+		   that header height (+66px) so the total stacked space reads as
+		   "solid header band + hero image" while remaining a single, taller hero. */
+		.hero-bleed{position:relative;width:100vw;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw;height:calc(54.6875vh + 66px);min-height:410px;max-height:722px;overflow:hidden;background:#000}
+		.hero-bleed img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 55%}
+		.hero-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;pointer-events:none}
+		.hero-heading{margin:0;font-size:clamp(28px,6vw,64px);font-weight:800;letter-spacing:.04em;line-height:1.05;color:#fff;padding:.35em .6em}
+		@media (max-width:900px){
+			.hero-bleed{height:calc(44vh + 66px);min-height:326px;max-height:546px}
+			.hero-heading{font-size:clamp(24px,5.5vw,44px)}
+			.hero-bleed img{object-position:center 50%}
+		}
+		@media (max-width:600px){
+			.hero-bleed{height:calc(36vh + 66px);min-height:266px;max-height:426px}
+			.hero-heading{font-size:clamp(20px,8.5vw,34px);padding:.25em .5em}
+			.hero-bleed img{object-position:center 45%}
+		}
+
+		/* Property card grid styles now live in assets/featured.css */
+
+		/* Contact footer (shared with listing pages) */
+		#contact {position:fixed;bottom:0;left:0;width:100%;z-index:1000;background:#1c1c1c;box-shadow:0 -2px 14px rgba(0,0,0,0.4);box-sizing:border-box;padding:0.6rem 1.5rem}
+		.contact-inner {display:flex;align-items:center;gap:1.25rem;max-width:1200px;margin:0 auto;position:relative}
+		.contact-right {display:flex;align-items:center;gap:1.25rem;margin-left:auto;text-align:right}
+		.contact-photo {width:40px;height:50px;object-fit:cover;object-position:top;border-radius:4px;flex-shrink:0}
+		.contact-name {font-size:0.9rem;font-weight:bold;margin:0;color:#fff;white-space:nowrap}
+		.contact-title {font-size:0.7rem;color:#aaa;margin:0;white-space:nowrap}
+		.contact-license {font-size:0.65rem;color:#9a9a9a;margin:0 0 0.4rem}
+		.contact-details {display:flex;flex-direction:row;gap:1.25rem;align-items:center;text-align:left;position:absolute;left:50%;transform:translateX(-50%)}
+		.contact-row {display:flex;flex-direction:column;line-height:1.25;align-items:center}
+		.contact-label {font-size:0.6rem;font-weight:bold;text-transform:uppercase;letter-spacing:0.06em;color:#9a9a9a}
+		.contact-row a {color:#e0e0e0;text-decoration:none;font-size:0.82rem;white-space:nowrap}
+		.contact-row a:hover {color:#3b9bff}
+		.contact-row a:focus-visible {outline:2px solid #3b9bff;outline-offset:2px;border-radius:2px}
+		.contact-logos {display:flex;align-items:center;gap:0.75rem;flex-shrink:0}
+		.contact-logo {height:30px;width:auto;object-fit:contain}
+		.contact-logos img:first-child {height:60px}
+		@media(max-width:600px){
+			.contact-logos{display:none}
+			.contact-right{display:none}
+			.contact-row:last-child{display:none}
+			.contact-details{position:static;transform:none;gap:1.25rem}
+			.contact-inner{justify-content:center}
+		}
+	</style>
+</head>
+<body>
+
+	<a href="#main" class="skip-link">Skip to main content</a>
+
+	<header id="site-header">
+		<div class="header-inner">
+			<img src="assets/logos/White SP Logo - With Box no text.png" alt="Samantha Phillips" class="header-logo">
+			<nav class="header-nav">
+				<a href="index.html">Featured Properties</a>
+				<a href="https://samanthap.kw.com/agent/samantha-phillips/799209">About Me</a>
+			</nav>
+		</div>
+	</header>
+
+	<main id="main">
+
+	<!-- Hero -->
+	<section style="margin:0;padding:0;overflow-x:hidden">
+		<div class="hero-bleed">
+			<img src="https://samanthaphillipsrealestate.github.io/3906ThatcherDrive/image-102.jpg" alt="Featured Properties">
+			<div class="hero-text">
+				<h1 class="hero-heading">Featured Properties</h1>
+			</div>
+		</div>
+	</section>
+
+	<!-- Properties -->
+	<section class="fp-section">
+		<div class="fp-container">
+			<h2 class="fp-heading">Properties</h2>
+			<!-- Cards are built automatically by assets/featured.js from listings.js.
+			     The cards below are a no-JS / SEO fallback only; when JavaScript runs
+			     it replaces them with the full, auto-sorted list. To add or change a
+			     property, edit listings.js (NOT this markup). -->
+			<div class="fp-grid">
+
+				<a href="properties/4369-the-heights/" aria-label="View listing: 4369 The Heights" class="fp-card-link">
+					<div class="fp-hero">
+						<img src="properties/4369-the-heights/images/TheHeights.jpg" alt="4369 The Heights">
+						<div class="fp-overlay"></div>
+						<div class="fp-content">
+							<div class="fp-title">4369 The Heights</div>
+							<div class="fp-sub">Oakland Township</div>
+						</div>
+					</div>
+				</a>
+
+				<a href="properties/602-wellington-cir/" aria-label="View listing: 602 Wellington Cir" class="fp-card-link">
+					<div class="fp-hero">
+						<img src="properties/602-wellington-cir/images/gallery/01-Wellington.jpg" alt="602 Wellington Cir">
+						<div class="fp-overlay"></div>
+						<div class="fp-content">
+							<div class="fp-title">602 Wellington Cir</div>
+							<div class="fp-sub">Rochester Hills</div>
+						</div>
+					</div>
+				</a>
+
+				<a href="properties/54381-pelican-lane/" aria-label="View listing: 54381 Pelican Lane" class="fp-card-link">
+					<div class="fp-hero">
+						<img src="properties/54381-pelican-lane/images/05-Pelican.jpg" alt="54381 Pelican Lane">
+						<div class="fp-overlay"></div>
+						<div class="fp-content">
+							<div class="fp-title">54381 Pelican Lane</div>
+							<div class="fp-sub">Shelby Township</div>
+							<div class="fp-sub fp-sub--pending">*PENDING*</div>
+						</div>
+					</div>
+				</a>
+
+			</div>
+		</div>
+	</section>
+
+	</main>
+
+	<!-- Contact footer (shared with listing pages) -->
+	<section id="contact">
+		<div class="contact-inner">
+			<div class="contact-logos">
+				<img src="assets/logos/LOGO SP Selected.png" alt="Samantha Phillips" class="contact-logo">
+				<img src="assets/logos/Web_KWDomain_logo.png" alt="Keller Williams" class="contact-logo">
+			</div>
+			<div class="contact-details">
+				<div class="contact-row">
+					<span class="contact-label">Mobile</span>
+					<a href="tel:+12488854969">(248) 885-4969</a>
+				</div>
+				<div class="contact-row">
+					<span class="contact-label">Office</span>
+					<a href="tel:+12485900800">(248) 590-0800</a>
+				</div>
+				<div class="contact-row">
+					<span class="contact-label">Email</span>
+					<a href="mailto:samanthaphillipsrealtor@gmail.com">samanthaphillipsrealtor@gmail.com</a>
+				</div>
+			</div>
+			<div class="contact-right">
+				<div>
+					<h2 class="contact-name">Samantha Phillips</h2>
+					<p class="contact-title">REALTOR®</p>
+					<p class="contact-license">License #: 434142</p>
+				</div>
+				<img src="assets/headshots/02_06077-Samantha-Samantha Phillips Hi-Res CROPPED.jpg" alt="Samantha Phillips" class="contact-photo">
+			</div>
+		</div>
+	</section>
+
+	<script>
+	(function () {
+		var header = document.getElementById('site-header');
+		var lastY  = 0;
+		window.addEventListener('scroll', function () {
+			var y = window.scrollY;
+			if (y > lastY && y > 10) {
+				header.classList.add('header-hidden');
+			} else {
+				header.classList.remove('header-hidden');
+			}
+			lastY = y;
+		});
+	})();
+	</script>
+
+	<!-- Property data + auto-built Featured Properties grid -->
+	<script src="listings.js"></script>
+	<script src="assets/featured.js"></script>
+	<script src="assets/nav.js"></script>
+
+</body>
+</html>
