@@ -4,332 +4,58 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>9899 Sunset Blvd</title>
-	<style>
-		/* Global */
-		body {margin:0;font-family:sans-serif;background:#f9f9f9;color:#222;padding-bottom:78px}
-		/* Skip link (keyboard / screen-reader bypass) */
-		.skip-link {position:absolute;left:-999px;top:0;z-index:1100;background:#1c1c1c;color:#fff;padding:0.6rem 1rem;border-radius:0 0 6px 0;text-decoration:none}
-		.skip-link:focus {left:0}
-
-		/* Header */
-		#site-header {position:fixed;top:0;left:0;width:100%;z-index:1001;background:transparent;box-sizing:border-box;padding:0.5rem 1.5rem;transition:transform .3s ease}
-		#site-header.header-hidden {transform:translateY(-100%)}
-		.header-inner {display:flex;align-items:center;max-width:1200px;margin:0 auto;height:50px;position:relative}
-		.header-logo {height:32px;width:auto;object-fit:contain;position:absolute;left:50%;transform:translateX(-50%)}
-		.header-nav {display:flex;gap:1.75rem;margin-left:auto;align-items:center}
-		.header-nav a {color:#fff;text-decoration:none;font-size:0.85rem;letter-spacing:0.04em;white-space:nowrap;text-shadow:0 1px 4px rgba(0,0,0,0.6)}
-		.header-nav a:hover {color:#ddd}
-		.header-nav a:focus-visible {outline:2px solid #fff;outline-offset:3px;border-radius:2px}
-
-		/* Opening / Hero */
-		.hero-section {
-				position: relative;
-				width: 100%;
-				height: 100vh;
-				height: 100svh;
-				overflow: hidden;
-				background-color: #000;
-		}
-
-		.hero-background-image {
-				position: absolute;
-				top: 0;
-				left: 0;
-				width: 100%;
-				height: 100%;
-				object-fit: cover;
-				object-position: center;
-				filter: brightness(0.8);
-		}
-
-		.hero-content {
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				transform: translate(-50%, -50%);
-				color: white;
-				text-align: center;
-				z-index: 10;
-		}
-
-		.hero-title {font-size: 4.5rem; font-weight: bold; margin-bottom: 0.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.7); line-height:1.1; white-space:nowrap}
-		.hero-subtitle {font-size:4.5rem;font-weight:bold;text-shadow:2px 2px 4px rgba(0,0,0,0.7)}
-
-		@media(max-width:768px){
-			.hero-title{font-size:min(2.25rem,7.5vw);white-space:normal;overflow-wrap:break-word}
-			.hero-subtitle{font-size:1.8rem}
-			.header-nav{width:100%;justify-content:space-between;margin-left:0;gap:0.5rem}
-			.header-nav a{font-size:0.72rem;letter-spacing:0.02em}
-			#site-header{padding:0.5rem 1rem}
-			.gallery{grid-template-columns:repeat(2,1fr)}
-			.details-section{padding:2rem 1rem}
-			#map iframe{height:300px}
-			.video-row{flex-direction:column}
-		}
-
-
-		/* Details section (kept inline-like styling converted to classes) */
-		.details-section {padding:4rem 1rem; text-align:center}
-		.details-inner {max-width:1100px;margin:0 auto;font-size:1.125rem;line-height:1.9;color:#333}
-		.features {list-style-type:disc;text-align:left;margin:2rem auto;max-width:900px;font-size:1rem;line-height:1.8}
-		.stats {display:flex;flex-wrap:wrap;justify-content:center;gap:0.5rem;margin-top:2.5rem}
-		.stat {border:2px solid #000;padding:0.5rem 0.8rem;min-width:110px;flex:0 1 auto;white-space:nowrap;font-size:0.9rem}
-
-		/* Gallery */
-		section.gallery-section {padding:4rem 1rem;text-align:center}
-		.gallery {
-			display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:1200px;margin:0 auto
-		}
-		.gallery a {position:relative;overflow:hidden;border-radius:8px;background:#eee;aspect-ratio:4/3;box-shadow:0 4px 8px rgba(0,0,0,0.1)}
-		.gallery img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .3s ease;display:block}
-		.gallery img:hover{transform:scale(1.05)}
-		.gallery a:nth-child(n+13){display:none}
-		.gallery.show-all a:nth-child(n+13){display:block}
-		.show-more-btn{margin-top:2rem;padding:0.8rem 2rem;background-color:#007bff;color:white;border:none;border-radius:5px;cursor:pointer;font-size:1rem}
-
-		/* Video tour */
-		.video-row{display:flex;gap:1rem;max-width:1200px;margin:2rem auto 0;justify-content:center}
-		.video-wrap{flex:1 1 0;min-width:0;border-radius:8px;overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,0.1)}
-		.video-wrap video{display:block;width:100%;height:100%;object-fit:cover}
-		@media(max-width:768px){
-			.video-row{flex-direction:column}
-			.video-wrap{flex:0 0 auto;width:100%}
-			.video-wrap video{height:auto}
-		}
-
-		/* Lightbox */
-		.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:9999;align-items:center;justify-content:center;padding:2rem}
-		.lightbox.is-open{display:flex}
-		.lightbox #lb-img{max-width:90%;max-height:85vh;border-radius:8px;box-shadow:0 10px 30px rgba(255,255,255,0.2)}
-		.lightbox button{background:none;border:none;color:#fff;cursor:pointer;font-size:3rem;position:absolute;top:50%;transform:translateY(-50%);padding:0 1rem;transition:.3s;line-height:1}
-		.lightbox button:hover{color:#bbb}
-		.lightbox .lb-prev{left:1rem}
-		.lightbox .lb-next{right:1rem}
-		.lightbox .lb-close{top:1rem;right:1.5rem;font-size:2rem;transform:none}
-
-		/* Map */
-		#map {padding:2rem 0;text-align:center}
-
-		/* Contact footer */
-		#contact {position:fixed;bottom:0;left:0;width:100%;z-index:1000;background:#1c1c1c;box-shadow:0 -2px 14px rgba(0,0,0,0.4);box-sizing:border-box;padding:0.6rem 1.5rem}
-		.contact-inner {display:flex;align-items:center;gap:1.25rem;max-width:1200px;margin:0 auto;position:relative}
-		.contact-right {display:flex;align-items:center;gap:1.25rem;margin-left:auto;text-align:right}
-		.contact-photo {width:40px;height:50px;object-fit:cover;object-position:top;border-radius:4px;flex-shrink:0}
-		.contact-name {font-size:0.9rem;font-weight:bold;margin:0;color:#fff;white-space:nowrap}
-		.contact-title {font-size:0.7rem;color:#aaa;margin:0;white-space:nowrap}
-		.contact-license {font-size:0.65rem;color:#9a9a9a;margin:0 0 0.4rem}
-		.contact-details {display:flex;flex-direction:row;gap:1.25rem;align-items:center;text-align:left;position:absolute;left:50%;transform:translateX(-50%)}
-		.contact-row {display:flex;flex-direction:column;line-height:1.25;align-items:center}
-		.contact-label {font-size:0.6rem;font-weight:bold;text-transform:uppercase;letter-spacing:0.06em;color:#9a9a9a}
-		.contact-row a {color:#e0e0e0;text-decoration:none;font-size:0.82rem;white-space:nowrap}
-		.contact-row a:hover {color:#3b9bff}
-		.contact-row a:focus-visible {outline:2px solid #3b9bff;outline-offset:2px;border-radius:2px}
-		.contact-logos {display:flex;align-items:center;gap:0.75rem;flex-shrink:0}
-		.contact-logo {height:30px;width:auto;object-fit:contain}
-		.contact-logos img:first-child {height:60px}
-		@media(max-width:600px){
-			.contact-logos{display:none}
-			.contact-right{display:none}
-			.contact-row:last-child{display:none}
-			.contact-details{position:static;transform:none;gap:1.25rem}
-			.contact-inner{justify-content:center}
-		}
-	</style>
-	<link rel="stylesheet" href="../../assets/banner.css">
-	<link rel="stylesheet" href="../../assets/nav.css">
+	<meta name="description" content="An extraordinary opportunity to build your dream home on 100 feet of premium lakefront along Saginaw Bay in the Pointe West Community in Sand Point.">
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="9899 Sunset Blvd">
+	<meta property="og:description" content="An extraordinary opportunity to build your dream home on 100 feet of premium lakefront along Saginaw Bay in the Pointe West Community in Sand Point.">
+	<meta property="og:image" content="images/9899_sunset_01.jpg">
+	<link rel="icon" type="image/png" href="../../assets/logos/SP Logo - With Box no text.png">
+	<link rel="stylesheet" href="../../assets/property.css?v=14">
+	<link rel="stylesheet" href="../../assets/banner.css?v=14">
 </head>
 <body>
-	<a href="#main" class="skip-link">Skip to main content</a>
 
-	<header id="site-header">
-		<div class="header-inner">
-			<img src="../../assets/logos/White SP Logo - With Box no text.png" alt="Samantha Phillips" class="header-logo">
-			<nav class="header-nav">
-				<a href="../../index.html">Featured Properties</a>
-				<a href="https://samanthap.kw.com/agent/samantha-phillips/799209">About Me</a>
-			</nav>
-		</div>
-	</header>
+<header class="site-header" id="siteHeader"><div class="zone left"></div><div class="zone center"><a class="brand" href="../../index.html" aria-label="Samantha Phillips — Home"><img class="light" src="../../assets/logos/White SP Logo - With Box no text.png" alt="Samantha Phillips"><img class="dark" src="../../assets/logos/SP Logo - With Box no text.png" alt="Samantha Phillips"></a></div><div class="zone right"><ul class="mainnav"><li><a href="https://samanthap.kw.com/search/sale?viewport=42.56741853198509%2C-83.18487712677%2C42.523343688688804%2C-83.24178287322997">Search Properties</a></li><li><a href="../../index.html#listings">Featured Properties</a></li><li><a href="https://samanthap.kw.com/about">About Me</a></li></ul><button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button></div></header><div class="scrim" id="scrim"></div><aside class="sidemenu" id="sidemenu" aria-hidden="true"><button class="sm-close" id="smClose" aria-label="Close menu">&times;</button><nav><a href="https://samanthap.kw.com/search/sale?viewport=42.56741853198509%2C-83.18487712677%2C42.523343688688804%2C-83.24178287322997">Search Properties</a><a href="../../index.html#listings">Featured Properties</a><a href="https://samanthap.kw.com/about">About Me</a></nav></aside>
 
-	<main id="main" tabindex="-1">
+<div class="hero"><img src="images/9899_sunset_01.jpg" alt="9899 Sunset Blvd, Caseville"><div class="hero-content"><h1>9899 Sunset Blvd</h1><div class="loc">Caseville</div><p class="features"><span>0.38 Acres</span></p><a class="btn-contact" href="#schedule">Contact Agent</a></div><a class="hero-photos" href="#gallery" id="heroPhotos">See All Photos</a></div>
 
-	<!-- Opening (hero) -->
-	<section class="hero-section">
-			<img src="images/9899_sunset_01.jpg" class="hero-background-image" alt="9899 Sunset Blvd, Caseville, MI">
-			<div class="hero-content">
-					<h1 class="hero-title">9899 Sunset Blvd<br>Caseville, MI</h1>
-			</div>
-	</section>
+<section id="overview" class="sec"><div class="head"><div class="rule"></div></div><div class="desc"><p>Lakefront &amp; Canal Frontage – Pointe West, Sand Point</p><p>An extraordinary opportunity to build your dream home on 100 feet of premium lakefront along the pristine sandy shores of Saginaw Bay. Situated in the highly sought-after Pointe West Community on Michigan&#x27;s Gold Coast in Sand Point, Huron County, this property offers exceptional value and an unmatched lifestyle.</p><p>With 100.94 feet of direct lake frontage plus canal frontage directly across the street, you&#x27;ll enjoy the rare combination of breathtaking open-water views and safe, protected boat docking.</p><p>This site condominium property provides the flexibility and privacy of a custom home while offering the benefits of a well-maintained community. Perfectly located just ~2 hours from Detroit, East Lansing, or Ann Arbor, it&#x27;s the ultimate setting for a year-round residence or summer retreat.</p><p>Experience the best of both worlds—direct sandy beach access and protected canal docking—making this a true boater&#x27;s paradise.</p><p>Note: Buyer to pay tap fee to Caseville Township at the start of construction.</p></div></section>
 
-	<!-- Details -->
-	<section class="details-section">
-
-		<div class="details-inner">
-			<p><b>Lakefront &amp; Canal Frontage – Pointe West, Sand Point</b></p>
-			<p>An extraordinary opportunity to build your dream home on <b>100 feet of premium lakefront</b> along the pristine sandy shores of <b>Saginaw Bay</b>. Situated in the highly sought-after <b>Pointe West Community</b> on Michigan's Gold Coast in <b>Sand Point, Huron County</b>, this property offers exceptional value and an unmatched lifestyle.</p>
-			<p>With <b>100.94 feet of direct lake frontage</b> plus <b>canal frontage directly across the street</b>, you'll enjoy the rare combination of breathtaking open-water views and safe, protected boat docking.</p>
-			<p>This site condominium property provides the <b>flexibility and privacy</b> of a custom home while offering the benefits of a well-maintained community. Perfectly located just ~2 hours from Detroit, East Lansing, or Ann Arbor, it's the ultimate setting for a <b>year-round residence or summer retreat</b>.</p>
-			<p>Experience the best of both worlds—<b>direct sandy beach access and protected canal docking</b>—making this a true <b>boater's paradise</b>.</p>
-			<p><b>Note:</b> Buyer to pay tap fee to Caseville Township at the start of construction.</p>
-
-			<div class="stats">
-				<div class="stat">Lot 0.38 Acres</div>
-				<div class="stat">100 Ft Lake Frontage</div>
-				<div class="stat">Canal Frontage</div>
-				<div class="stat">Saginaw Bay</div>
-				<div class="stat">Pointe West Community</div>
-			</div>
-		</div>
-
-	</section>
-
-	<!-- Gallery -->
-	<section class="gallery-section">
-		<div class="gallery" id="gallery">
-			<a href="images/9899_sunset_01.jpg" data-index="0" aria-label="View photo 1"><img src="images/9899_sunset_01.jpg" alt=""></a>
-			<a href="images/9899_sunset_02.jpg" data-index="1" aria-label="View photo 2"><img src="images/9899_sunset_02.jpg" alt=""></a>
-			<a href="images/9899_sunset_03.jpg" data-index="2" aria-label="View photo 3"><img src="images/9899_sunset_03.jpg" alt=""></a>
-			<a href="images/9899_sunset_04.jpg" data-index="3" aria-label="View photo 4"><img src="images/9899_sunset_04.jpg" alt=""></a>
-			<a href="images/9899_sunset_05.jpg" data-index="4" aria-label="View photo 5"><img src="images/9899_sunset_05.jpg" alt=""></a>
-			<a href="images/9899_sunset_06.jpg" data-index="5" aria-label="View photo 6"><img src="images/9899_sunset_06.jpg" alt=""></a>
-			<a href="images/9899_sunset_07.jpg" data-index="6" aria-label="View photo 7"><img src="images/9899_sunset_07.jpg" alt=""></a>
-			<a href="images/9899_sunset_08.png" data-index="7" aria-label="View photo 8"><img src="images/9899_sunset_08.png" alt=""></a>
-		</div>
-		<button class="show-more-btn" id="show-more-btn">Show More Photos</button>
-
-		<!-- Video Tour -->
-		<div class="video-row">
-			<div class="video-wrap">
-				<video width="100%" autoplay muted loop playsinline>
-					<source src="videos/9899%20Sunset%20Blvd%20%231.mp4" type="video/mp4">
-				</video>
-			</div>
-			<div class="video-wrap">
-				<video width="100%" autoplay muted loop playsinline>
-					<source src="videos/9899%20Sunset%20Blvd%20%232.mp4" type="video/mp4">
-				</video>
-			</div>
-		</div>
-
-		<!-- Lightbox (JS-powered) -->
-		<div class="lightbox" id="lightbox" aria-hidden="true">
-			<button class="lb-close" aria-label="Close">×</button>
-			<button class="lb-prev" aria-label="Previous image">‹</button>
-			<img src="" alt="" id="lb-img">
-			<button class="lb-next" aria-label="Next image">›</button>
+<section id="gallery" class="sec">
+		<div class="head"><h2>Gallery</h2><div class="rule"></div></div>
+		<div class="grid" id="grid">
+			<a href="images/9899_sunset_01.jpg" data-i="0"><img src="images/9899_sunset_01.jpg" alt=""></a>
+			<a href="images/9899_sunset_02.jpg" data-i="1"><img src="images/9899_sunset_02.jpg" alt=""></a>
+			<a href="images/9899_sunset_03.jpg" data-i="2"><img src="images/9899_sunset_03.jpg" alt=""></a>
+			<a href="images/9899_sunset_04.jpg" data-i="3"><img src="images/9899_sunset_04.jpg" alt=""></a>
+			<a href="images/9899_sunset_05.jpg" data-i="4"><img src="images/9899_sunset_05.jpg" alt=""></a>
+			<a href="images/9899_sunset_06.jpg" data-i="5"><img src="images/9899_sunset_06.jpg" alt=""></a>
+			<a href="images/9899_sunset_07.jpg" data-i="6"><img src="images/9899_sunset_07.jpg" alt=""></a>
+			<a href="images/9899_sunset_08.png" data-i="7"><img src="images/9899_sunset_08.png" alt=""></a>
 		</div>
 	</section>
 
-	<script>
-	(function () {
-		var gallery = document.getElementById('gallery');
-		var items   = Array.from(gallery.querySelectorAll('a'));
-		var lb      = document.getElementById('lightbox');
-		var lbImg   = document.getElementById('lb-img');
-		var current = 0;
-
-		function openLb(index) {
-			current = index;
-			lbImg.src = items[current].getAttribute('href');
-			lbImg.alt = 'Enlarged property photo ' + (current + 1);
-			lb.classList.add('is-open');
-			lb.setAttribute('aria-hidden', 'false');
-		}
-		function closeLb() {
-			lb.classList.remove('is-open');
-			lb.setAttribute('aria-hidden', 'true');
-			lbImg.src = '';
-		}
-		function prev() { openLb((current - 1 + items.length) % items.length); }
-		function next() { openLb((current + 1) % items.length); }
-
-		items.forEach(function (a, i) {
-			a.addEventListener('click', function (e) { e.preventDefault(); openLb(i); });
-		});
-
-		document.querySelector('.lb-close').addEventListener('click', closeLb);
-		document.querySelector('.lb-prev').addEventListener('click', prev);
-		document.querySelector('.lb-next').addEventListener('click', next);
-
-		lb.addEventListener('click', function (e) { if (e.target === lb) closeLb(); });
-
-		document.addEventListener('keydown', function (e) {
-			if (!lb.classList.contains('is-open')) return;
-			if (e.key === 'Escape')     closeLb();
-			if (e.key === 'ArrowLeft')  prev();
-			if (e.key === 'ArrowRight') next();
-		});
-
-		var showMoreBtn = document.getElementById('show-more-btn');
-		if (items.length <= 12) {
-			showMoreBtn.style.display = 'none';
-		}
-		showMoreBtn.addEventListener('click', function () {
-			gallery.classList.add('show-all');
-			this.style.display = 'none';
-		});
-	})();
-	</script>
-
-	</main>
-
-	<!-- Map -->
-	<section id="map">
-		<iframe title="Map of 9899 Sunset Blvd, Caseville, MI" src="https://maps.google.com/maps?q=9899+Sunset+Blvd,+Caseville,+MI&output=embed" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-	</section>
-
-	<!-- Contact -->
-	<section id="contact">
-		<div class="contact-inner">
-			<div class="contact-logos">
-				<img src="../../assets/logos/LOGO SP Selected.png" alt="Samantha Phillips" class="contact-logo">
-				<img src="../../assets/logos/Web_KWDomain_logo.png" alt="Keller Williams" class="contact-logo">
-			</div>
-			<div class="contact-details">
-				<div class="contact-row">
-					<span class="contact-label">Mobile</span>
-					<a href="tel:+12488854969">(248) 885-4969</a>
-				</div>
-				<div class="contact-row">
-					<span class="contact-label">Office</span>
-					<a href="tel:+12485900800">(248) 590-0800</a>
-				</div>
-				<div class="contact-row">
-					<span class="contact-label">Email</span>
-					<a href="mailto:samanthaphillipsrealtor@gmail.com">samanthaphillipsrealtor@gmail.com</a>
-				</div>
-			</div>
-			<div class="contact-right">
-				<div>
-					<h2 class="contact-name">Samantha Phillips</h2>
-					<p class="contact-title">REALTOR®</p>
-					<p class="contact-license">License #: 434142</p>
-				</div>
-				<img src="../../assets/headshots/02_06077-Samantha-Samantha Phillips Hi-Res CROPPED.jpg" alt="Samantha Phillips" class="contact-photo">
-			</div>
+<section class="sec media-section">
+		<div class="media media--single">
+			<div class="media-vid"><div class="lab">Video Tour</div>
+			<div class="vid"><video controls playsinline preload="metadata"><source src="videos/9899%20Sunset%20Blvd%20%231.mp4" type="video/mp4"></video></div>
+			<div class="vid"><video controls playsinline preload="metadata"><source src="videos/9899%20Sunset%20Blvd%20%232.mp4" type="video/mp4"></video></div></div>
 		</div>
 	</section>
 
-	<script>
-	(function () {
-		var header = document.getElementById('site-header');
-		var lastY  = 0;
-		window.addEventListener('scroll', function () {
-			var y = window.scrollY;
-			if (y > lastY && y > 10) {
-				header.classList.add('header-hidden');
-			} else {
-				header.classList.remove('header-hidden');
-			}
-			lastY = y;
-		});
-	})();
-	</script>
+<section class="map"><iframe title="Map of 9899 Sunset Blvd" src="https://maps.google.com/maps?q=9899+Sunset+Blvd,+Caseville,+MI&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></section>
 
-	<!-- Property data + auto status banner -->
-	<script src="../../listings.js"></script>
-	<script src="../../assets/banner.js"></script>
-	<script src="../../assets/nav.js"></script>
+<div class="lb" id="lb"><div class="lb-bar" id="lbBar"><div class="lb-tabs" id="lbTabs"><button type="button" data-mode="photos">Photos</button><button type="button" data-mode="video">Video</button></div></div><button class="c" aria-label="Close">&times;</button><button class="p" aria-label="Previous">&lsaquo;</button><img src="" alt="" id="lbimg"><div class="lb-video" id="lbVideo"></div><button class="x" aria-label="Next">&rsaquo;</button><div class="lb-count" id="lbCount"></div></div>
 
+<section id="schedule" class="sec"><div class="head"><span class="eyebrow">Let's Connect</span><h2>Schedule a Showing</h2><div class="rule"></div></div><form class="form" id="form"><input type="hidden" id="property" name="Property"><div class="frow"><div class="fg"><label for="fn">First Name *</label><input type="text" id="fn" required placeholder="Jane"></div><div class="fg"><label for="ln">Last Name *</label><input type="text" id="ln" required placeholder="Smith"></div></div><div class="fg"><label for="ph">Phone *</label><input type="tel" id="ph" required placeholder="(555) 555-5555"></div><div class="fg"><label for="em">Email *</label><input type="email" id="em" required placeholder="jane@example.com"></div><div class="fg"><label for="cmt">Comments</label><textarea id="cmt" placeholder="Any questions or preferred showing times…"></textarea></div><div class="consent"><input type="checkbox" id="consent" required><label for="consent">I agree to be contacted by Samantha Phillips regarding my inquiry via phone call, text message, or email. Message and data rates may apply. Consent is not a condition of purchase.</label></div><button type="submit" class="submit" id="sb">Request Showing</button><p id="msg" style="margin-top:1rem;text-align:center;display:none"></p></form></section>
+
+<section class="sec alt"><div class="inner"><div class="agentcard"><img src="../../assets/headshots/02_06077-Samantha-Samantha Phillips Hi-Res CROPPED.jpg" alt="Samantha Phillips"><div><h2>Samantha Phillips</h2><div class="role">REALTOR® · License #434142</div><p>Samantha is one of the Top Ranked Sales Agents with KW DOMAIN - the no. 1 Real Estate office in Michigan, where she has been able to provide numerous clients with her knowledge, expertise, and unparalleled passion for the field.</p><div class="ac"><div><div class="k">Mobile</div><a href="tel:+12488854969">(248) 885-4969</a></div><div><div class="k">Office</div><a href="tel:+12485900800">(248) 590-0800</a></div><div><div class="k">Email</div><a href="mailto:samanthaphillipsrealtor@gmail.com">samanthaphillipsrealtor@gmail.com</a></div></div></div></div></div></section>
+
+<footer class="site-footer"><div class="ft-inner"><img class="ft-logo" src="../../assets/logos/White SP Logo - With Box no text.png" alt="Samantha Phillips"><div class="ft-name">Samantha Phillips</div><div class="ft-role">REALTOR® · License #434142</div><div class="ft-contact"><span class="ft-k">Cell</span> <a href="tel:+12488854969">(248) 885-4969</a><span class="ft-sep">·</span><span class="ft-k">Office</span> <a href="tel:+12485900800">(248) 590-0800</a><span class="ft-sep">·</span><a href="mailto:samanthaphillipsrealtor@gmail.com">samanthaphillipsrealtor@gmail.com</a></div><nav class="ft-links"><a href="../../index.html#listings">Featured Properties</a><span class="ft-sep">·</span><a href="https://samanthap.kw.com/about">About Me</a><span class="ft-sep">·</span><a href="../../privacy-policy.html">Privacy Policy</a></nav><img class="ft-kw" src="../../assets/logos/Web_KWDomain_logo.png" alt="Keller Williams"><div class="ft-copy">© 2026 Samantha Phillips. All rights reserved.</div></div></footer>
+
+<!-- All content above is static HTML. The only script is interactivity
+     (lightbox, mobile menu, header-on-scroll, showing form). -->
+<script>window.__LB={"photos": ["images/9899_sunset_01.jpg", "images/9899_sunset_02.jpg", "images/9899_sunset_03.jpg", "images/9899_sunset_04.jpg", "images/9899_sunset_05.jpg", "images/9899_sunset_06.jpg", "images/9899_sunset_07.jpg", "images/9899_sunset_08.png"], "floors": [], "videos": [{"type": "file", "src": "videos/9899%20Sunset%20Blvd%20%231.mp4", "title": ""}, {"type": "file", "src": "videos/9899%20Sunset%20Blvd%20%232.mp4", "title": ""}], "formUrl": "https://script.google.com/macros/s/AKfycbzVB4Bu2YXiCDKd0danyLegQFIVeRvPQS6gOrtPhXM2_dGoT4qRuX3ODGodTuN9HmyF/exec"};</script>
+<script src="../../assets/listing.js?v=14"></script>
 </body>
 </html>

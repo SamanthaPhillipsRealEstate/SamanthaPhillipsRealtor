@@ -6,5 +6,12 @@
 
 # Large/scratch files
 html_example.html
-test.html
+template.html
 README.md
+
+# Site source/generator — kept locally, regenerates the hardcoded HTML (not published)
+properties/manifest.json
+properties/*/data.json
+
+# Drafts — never published
+drafts/

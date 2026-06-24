@@ -17,6 +17,6 @@
 .fp-card-link:hover .fp-overlay{background:rgba(0,0,0,.28)}
 .fp-card-link:hover .fp-hero img{filter:brightness(0.7);transform:scale(1.02)}
 
-/* Status sub-line tints (the "*PENDING*" / "*SOLD*" line). */
-.fp-sub--pending{color:#ffe08a}
-.fp-sub--sold{color:#ff9d9d}
+/* Status sub-line (the "*PENDING*" / "*SOLD*" / "*LEASED*" line). */
+.fp-sub--pending{color:inherit}
+.fp-sub--sold{color:inherit}

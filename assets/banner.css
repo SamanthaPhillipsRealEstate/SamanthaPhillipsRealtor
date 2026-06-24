@@ -1,8 +1,13 @@
-/* Status banner — the scrolling SOLD / PENDING strip injected under the hero
-   on a property page. assets/banner.js adds the markup based on listings.js. */
+/* Status banner — the scrolling SOLD / PENDING strip shown under the hero on a
+   sold/pending property page (markup is baked into the page by build_static.py). */
 
 .status-banner{height:15vh;overflow:hidden;display:flex;align-items:center;position:relative}
-.status-banner .scroll-text{white-space:nowrap;font-size:4.5rem;font-weight:bold;color:#fcfcfc;pointer-events:none;transform:translateX(0);transition:transform 0s}
+/* Continuous marquee — two identical halves; translating -50% loops seamlessly,
+   so the strip is always full of text (never starts blank). */
+.status-banner .scroll-text{display:flex;flex-wrap:nowrap;white-space:nowrap;font-size:4.5rem;font-weight:bold;color:#fcfcfc;pointer-events:none;animation:bannerMarquee 40s linear infinite;will-change:transform}
+.status-banner .scroll-text span{flex:0 0 auto}
+@keyframes bannerMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.status-banner .scroll-text{animation:none}}
 
 .status-banner.is-sold{background-color:#963338}     /* dark red  */
 .status-banner.is-pending{background-color:#bab9b6}  /* soft gray */

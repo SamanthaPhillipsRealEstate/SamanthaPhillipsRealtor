@@ -1,0 +1,275 @@
+/* ============================================================================
+   property.css — shared styles for every property page.
+   Extracted from the original template.html <style> block, plus a few adaptive
+   rules (scrollable floorplan strip, single-column media row) used by
+   property.js when a property has fewer/more assets than the default.
+   ========================================================================== */
+
+:root{
+	--ink:#222;--muted:#777;--line:#e3e1da;--bg:#fff;
+	--serif:Georgia,'Times New Roman',serif;
+	--sans:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--bg);font-weight:300;line-height:1.75;font-size:15px}
+h1,h2,h3{font-family:var(--serif);font-weight:500;margin:0;letter-spacing:.01em}
+a{color:inherit}
+img{display:block;max-width:100%}
+
+[id]{scroll-margin-top:96px}
+
+/* ── Header (transparent over hero → solid on scroll, slim reveal) ── */
+.site-header{position:fixed;top:0;left:0;width:100%;z-index:120;display:flex;align-items:center;
+	padding:.9rem 2.5rem;color:#fff;transition:transform .4s ease,background .3s ease,box-shadow .3s ease}
+.site-header.scrolled{background:#fff;color:var(--ink);box-shadow:0 1px 14px rgba(0,0,0,.08)}
+.site-header.hide{transform:translateY(-100%)}
+.site-header .zone{flex:1;display:flex;align-items:center}
+.zone.left{justify-content:flex-start}
+.zone.center{justify-content:center}
+.zone.right{justify-content:flex-end;gap:1.2rem}
+
+/* Center logo + dual (light/dark) swap */
+.brand{display:block;line-height:0}
+.brand img{height:46px;width:auto}
+.brand .dark{display:none}
+.site-header.scrolled .brand .light{display:none}
+.site-header.scrolled .brand .dark{display:block}
+
+/* Main nav + hover dropdowns */
+.mainnav{display:flex;gap:1.7rem;list-style:none;margin:0;padding:0}
+.mainnav>li{position:relative}
+.mainnav>li>a,.mainnav>li>button{display:inline-flex;align-items:center;gap:.35rem;background:none;border:none;
+	color:inherit;font-family:var(--sans);font-size:.72rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+	text-decoration:none;cursor:pointer;padding:.4rem 0;text-shadow:0 1px 6px rgba(0,0,0,.35);white-space:nowrap}
+.mainnav{flex-wrap:nowrap}
+.site-header.scrolled .mainnav>li>a,.site-header.scrolled .mainnav>li>button{text-shadow:none}
+.mainnav>li>a:hover,.mainnav>li>button:hover{opacity:.7}
+.mainnav .caret{font-size:.6rem;opacity:.8}
+.sub{position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(6px);min-width:210px;background:#fff;color:var(--ink);
+	box-shadow:0 10px 30px rgba(0,0,0,.14);padding:.5rem 0;opacity:0;visibility:hidden;transition:opacity .2s ease,transform .2s ease;list-style:none;margin:0}
+.mainnav>li:hover .sub,.mainnav>li:focus-within .sub{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+.sub a{display:block;padding:.55rem 1.5rem;white-space:nowrap;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
+.sub a:hover{background:#f4f2ec}
+
+/* Right-side contact CTA */
+.cta{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;border:1px solid currentColor;padding:.55rem 1.1rem;transition:.2s;white-space:nowrap}
+.cta:hover{background:currentColor}
+.cta:hover span{color:#fff}
+.site-header.scrolled .cta:hover span{color:#fff}
+
+/* Hamburger (mobile) */
+.burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px;color:inherit}
+.burger span{display:block;width:24px;height:2px;background:currentColor;transition:.3s}
+
+/* Slide-out side menu */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.5);opacity:0;visibility:hidden;transition:.3s;z-index:190}
+.scrim.open{opacity:1;visibility:visible}
+.sidemenu{position:fixed;top:0;right:0;height:100%;width:330px;max-width:86vw;background:rgba(255,255,255,.5);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#fff;z-index:200;
+	transform:translateX(100%);transition:transform .35s ease;display:flex;flex-direction:column;padding:1.6rem 1.8rem;overflow-y:auto;text-align:right}
+.sidemenu.open{transform:translateX(0)}
+.sidemenu .sm-close{align-self:flex-end;background:none;border:none;color:#fff;font-size:1.9rem;line-height:1;cursor:pointer}
+.sidemenu nav{display:flex;flex-direction:column;gap:.2rem;margin-top:1rem}
+.sidemenu nav a{color:#fff;text-decoration:none;font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;padding:.85rem 0;border-bottom:1px solid rgba(255,255,255,.12)}
+.sidemenu nav a:hover{color:#bbb}
+.sm-contact{margin-top:auto;padding-top:1.6rem;font-size:.82rem;line-height:2}
+.sm-contact .k{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:#999;display:block;margin-top:.8rem}
+.sm-contact a{color:#e0e0e0;text-decoration:none}
+
+/* Hero — image only, no text over it */
+.hero{position:relative;width:100%;height:100vh;height:100svh;overflow:hidden;background:#000}
+.hero img{width:100%;height:100%;object-fit:cover;object-position:center}
+.hero::after{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,rgba(0,0,0,.4) 0%,rgba(0,0,0,.15) 35%,rgba(0,0,0,.6) 100%)}
+
+/* Hero overlay: price / address / details / contact */
+.hero-content{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+	text-align:center;color:#fff;padding:2rem 2rem 9vh;text-shadow:0 2px 14px rgba(0,0,0,.55)}
+.hero-content .price{font-size:1.1rem;letter-spacing:.04em;margin-bottom:14px}
+.hero-content h1{font-size:clamp(1.9rem,4vw,2.9rem);line-height:1.1;text-transform:uppercase;letter-spacing:.015em}
+.hero-content .loc{font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.85);margin-top:.7rem}
+.hero-content .features{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;margin:1rem 0 0;padding:0;font-size:1rem;color:rgba(255,255,255,.92)}
+.hero-content .features span+span:before{content:'|';margin:0 .7rem;color:rgba(255,255,255,.45)}
+.btn-contact{display:inline-block;margin-top:1.9rem;padding:.85rem 2.6rem;background:transparent;border:1.5px solid #fff;color:#fff;
+	font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:.25s}
+.btn-contact:hover{background:#fff;color:var(--ink)}
+
+/* See-all-photos button, bottom-right of hero */
+.hero-photos{position:absolute;right:2rem;bottom:2rem;z-index:3;display:inline-flex;align-items:center;gap:.5rem;
+	padding:.7rem 1.3rem;background:rgba(0,0,0,.4);color:#fff;border:1px solid rgba(255,255,255,.65);
+	font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;transition:.25s;backdrop-filter:blur(2px)}
+.hero-photos:hover{background:#fff;color:var(--ink);border-color:#fff}
+@media(max-width:600px){.hero-photos{right:1.1rem;bottom:1.1rem;padding:.6rem 1rem}}
+
+/* Generic section */
+.sec{max-width:1160px;margin:0 auto;padding:5rem 2rem}
+.sec.alt{max-width:none;background:#faf9f6}
+.sec.alt .inner{max-width:1160px;margin:0 auto}
+.head{text-align:center;margin-bottom:3rem}
+.head .eyebrow{font-size:.66rem;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:.8rem}
+.head h2{font-size:clamp(1.8rem,3.4vw,2.6rem)}
+.head .rule{width:44px;height:1px;background:var(--ink);margin:1.2rem auto 0}
+
+/* Overview text */
+.desc{max-width:760px;margin:0 auto;text-align:center;color:#444;font-size:1.02rem}
+.desc p{margin:0 0 1.1rem}
+.desc p:last-child{margin-bottom:0}
+
+/* Gallery */
+/* Fixed-size thumbnails: every cell is an identical 4:3 box (driven by the
+   column width, NOT the photo). min-width:0 stops a large image from forcing
+   its grid track wider; object-fit:cover crops the photo to fill the box.
+   Result: galleries look identical on every page regardless of image pixels. */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem}
+.grid a{position:relative;display:block;width:100%;min-width:0;aspect-ratio:4/3;overflow:hidden;background:#eee;cursor:pointer}
+.grid img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block;transition:transform .5s}
+.grid a:hover img{transform:scale(1.05)}
+.grid a:nth-child(n+10){display:none}
+.grid.all a:nth-child(n+10){display:block}
+.btn{display:block;margin:2.4rem auto 0;padding:.8rem 2.3rem;background:none;border:1px solid var(--ink);font-family:var(--sans);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:.2s}
+.btn:hover{background:var(--ink);color:#fff}
+
+/* Lightbox */
+/* Stacked as a centered column: tabs directly ABOVE the media, counter below.
+   Only the prev/next arrows + close stay absolutely positioned. */
+.lb{display:none;position:fixed;inset:0;background:rgba(10,10,10,.95);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:.9rem;padding:2rem}
+.lb.open{display:flex}
+.lb #lbimg{max-width:90%;max-height:80vh;object-fit:contain}
+.lb button{position:absolute;top:50%;transform:translateY(-50%);background:none;border:none;color:#fff;font-size:2.6rem;cursor:pointer;padding:0 1.2rem}
+.lb .p{left:1rem}.lb .x{right:1rem}.lb .c{top:1rem;right:1.4rem;font-size:2rem;transform:none}
+.lb-bar{position:static;z-index:2}
+.lb-tabs{display:flex;gap:.4rem;justify-content:center;flex-wrap:wrap}
+.lb-tabs button{position:static;top:auto;transform:none;padding:.5rem .9rem;background:rgba(255,255,255,.12);
+	border:1px solid rgba(255,255,255,.45);color:#fff;font-family:var(--sans);font-size:.62rem;letter-spacing:.14em;
+	text-transform:uppercase;cursor:pointer;transition:.2s}
+.lb-tabs button:hover{background:rgba(255,255,255,.25)}
+.lb-tabs button.active{background:#fff;color:var(--ink);border-color:#fff}
+.lb-count{position:static;z-index:2;color:rgba(255,255,255,.8);font-size:.66rem;letter-spacing:.16em}
+.lb-video{display:none;width:min(90vw,1100px);aspect-ratio:16/9;max-height:80vh}
+.lb-video iframe,.lb-video video{width:100%;height:100%;border:0;background:#000;object-fit:contain}
+@media(max-width:600px){.lb-tabs button{padding:.5rem .8rem;font-size:.6rem}}
+
+/* A very wide image (e.g. a 9000px+ floor plan) must not stretch its grid
+   column past the section. min-width:0 lets the columns respect their track. */
+.media>div{min-width:0}
+
+/* media row (floor plans + video) — its own section, separate from the gallery */
+.media-section{padding-top:0}
+.media-section .media{margin-top:0}
+.media{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;margin-top:3.5rem;align-items:start}
+.media.media--single{grid-template-columns:1fr;max-width:620px;margin-left:auto;margin-right:auto}
+.media .lab{font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:.9rem}
+.fp{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+/* A lone floor plan → center it instead of pinning it to the left column */
+.fp.fp--single{grid-template-columns:minmax(0,400px);justify-content:center}
+.media-fp:has(.fp--single) .lab{text-align:center}
+/* Many floorplans → horizontal scrolling strip instead of an ever-growing grid */
+.fp.fp--scroll{display:flex;gap:.9rem;overflow-x:auto;padding-bottom:.6rem;scroll-snap-type:x mandatory}
+.fp.fp--scroll a{flex:0 0 46%;scroll-snap-align:start;aspect-ratio:1}
+.fp a{display:block;min-width:0;border:1px solid var(--line);aspect-ratio:1;overflow:hidden;background:#fff;cursor:pointer}
+.fp img{width:100%;height:100%;object-fit:contain}
+.vid{aspect-ratio:16/9;overflow:hidden;background:#000}
+.vid+.vid{margin-top:.9rem}
+.vid iframe,.vid video{width:100%;height:100%;border:0;display:block}
+
+/* Neighborhood */
+.hood{text-align:center}
+.hood p{max-width:720px;margin:0 auto;color:#444}
+
+/* Map */
+.map iframe{width:100%;height:420px;border:0;display:block;filter:grayscale(.15)}
+
+/* Calculator */
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+.calc .fld{margin-bottom:1.3rem}
+.calc label{display:block;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem}
+.calc input{width:100%;padding:.75rem 1rem;border:1px solid var(--line);font-family:var(--sans);font-size:1rem}
+.calc input:focus{outline:none;border-color:var(--ink)}
+.calcout{text-align:center;padding:2.6rem 2rem;background:var(--ink);color:#fff}
+.calcout .l{font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+.calcout .amt{font-family:var(--serif);font-size:3rem;margin:.5rem 0 1.2rem}
+.calcout .bd{display:flex;justify-content:space-around;border-top:1px solid rgba(255,255,255,.15);padding-top:1.2rem;font-size:.78rem;color:rgba(255,255,255,.75)}
+.calcout .bd b{display:block;font-family:var(--serif);font-size:1.2rem;font-weight:500;color:#fff;margin-top:.2rem}
+.note{text-align:center;font-size:.7rem;color:var(--muted);margin-top:1.4rem}
+
+/* Form */
+.form{max-width:600px;margin:0 auto}
+.frow{display:flex;gap:1rem}
+.fg{display:flex;flex-direction:column;flex:1;margin-bottom:1.2rem}
+.fg label{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem}
+.fg input,.fg textarea{padding:.75rem 1rem;border:1px solid var(--line);font-family:var(--sans);font-size:1rem}
+.fg input:focus,.fg textarea:focus{outline:none;border-color:var(--ink)}
+.fg textarea{resize:vertical;min-height:110px}
+.consent{display:flex;gap:.6rem;align-items:flex-start;margin-bottom:1.3rem}
+.consent input{margin-top:.25rem;flex:none;width:16px;height:16px;accent-color:var(--ink);cursor:pointer}
+.consent label{font-size:.74rem;line-height:1.55;color:#666;letter-spacing:.01em}
+.submit{width:100%;padding:.95rem;background:var(--ink);color:#fff;border:none;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;cursor:pointer}
+.submit:hover{background:#000}
+
+/* Footer — centered & stacked (shared by the homepage and listing pages) */
+.site-footer{background:#1c1c1c;color:#bdbbb4;text-align:center;padding:3.6rem 2rem 2.6rem}
+.site-footer .ft-inner{max-width:680px;margin:0 auto;display:flex;flex-direction:column;align-items:center}
+.ft-logo{height:62px;width:auto;margin-bottom:1.1rem}
+.ft-name{font-family:var(--serif);font-size:1.55rem;font-weight:500;color:#fff;letter-spacing:.02em}
+.ft-role{font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:#9a9a9a;margin-top:.5rem}
+.ft-contact{margin-top:1.5rem;font-size:.86rem;line-height:1.9;color:#e0e0e0}
+.ft-contact a{color:#e0e0e0;text-decoration:none}
+.ft-contact a:hover{color:#fff}
+.ft-k{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:#9a9a9a;margin-right:.15rem}
+.ft-sep{color:#555;margin:0 .6rem}
+.ft-links{margin-top:1rem;font-size:.64rem;letter-spacing:.16em;text-transform:uppercase}
+.ft-links a{color:#bdbbb4;text-decoration:none}
+.ft-links a:hover{color:#fff}
+.ft-kw{height:38px;width:auto;margin-top:1.8rem;opacity:.92}
+.ft-copy{margin-top:1.6rem;font-size:.62rem;letter-spacing:.08em;color:#777}
+@media(max-width:600px){
+	.site-footer{padding:2.8rem 1.4rem 2.2rem}
+	.ft-contact a{display:block}
+	.ft-contact .ft-sep{display:none}
+}
+
+/* Agent */
+.agentcard{display:grid;grid-template-columns:240px 1fr;gap:3rem;align-items:center;max-width:880px;margin:0 auto}
+.agentcard img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:top}
+.agentcard h2{font-size:2.1rem}
+.agentcard .role{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:.4rem 0 1.2rem}
+.agentcard p{color:#444;margin:0 0 1.4rem}
+.ac{display:flex;flex-wrap:wrap;gap:1.4rem 2.2rem}
+.ac .k{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.ac a{font-size:.9rem;text-decoration:none}
+
+@media(max-width:900px){
+	.media,.calc,.agentcard{grid-template-columns:1fr;gap:2rem}
+	.agentcard img{max-width:240px;margin:0 auto}.agentcard{text-align:center}.ac{justify-content:center}
+}
+@media(max-width:860px){
+	.mainnav,.zone.right .cta{display:none}
+	.burger{display:flex}
+	.zone.left{justify-content:flex-start}
+	.site-header{padding:.9rem 1.3rem}
+	.brand img{height:32px}
+}
+@media(max-width:600px){
+	.sec{padding:3.2rem 1.2rem}
+	.head{margin-bottom:2rem}
+	/* Hero: image at 2/3 of the viewport height, text moved below it on a light panel */
+	.hero{height:auto;background:#fff}
+	.hero img{height:66vh;object-fit:cover}
+	/* Keep "See All Photos" in the bottom corner of the IMAGE, not the taller hero */
+	.hero-photos{top:calc(66vh - 1.1rem);bottom:auto;transform:translateY(-100%)}
+	.hero::after{display:none}
+	.hero-content{position:static;inset:auto;color:var(--ink);text-shadow:none;padding:1.6rem 1.2rem .4rem;justify-content:flex-start}
+	.hero-content .loc{color:var(--muted)}
+	.hero-content .features{color:var(--ink);font-size:.9rem}
+	.hero-content .features span+span:before{color:var(--line);margin:0 .5rem}
+	.btn-contact{border-color:var(--ink);color:var(--ink);margin-top:1.5rem}
+	.btn-contact:hover{background:var(--ink);color:#fff}
+	.desc{font-size:.98rem}
+	.grid{grid-template-columns:repeat(2,1fr)}.grid a:nth-child(n+7){display:none}.grid.all a:nth-child(n+7){display:block}
+	.frow{flex-direction:column;gap:0}
+	.fp.fp--scroll a{flex-basis:70%}
+	.map iframe{height:300px}
+	.lb{padding:1rem}
+	.lb #lbimg{max-width:100%}
+	/* size ONLY the prev/next arrows + close — NOT the top tab buttons */
+	.lb .p,.lb .x{font-size:2.1rem;padding:0 .5rem}
+	.lb .c{font-size:1.9rem;top:.6rem;right:.9rem}
+}
