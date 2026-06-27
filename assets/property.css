@@ -29,7 +29,7 @@ img{display:block;max-width:100%}
 .zone.right{justify-content:flex-end;gap:1.2rem}
 
 /* Center logo + dual (light/dark) swap */
-.brand{display:block;line-height:0}
+.brand{display:block;line-height:0;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
 .brand img{height:46px;width:auto}
 .brand .dark{display:none}
 .site-header.scrolled .brand .light{display:none}
