@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Samantha Phillips Real Estate — We've Moved</title>
+
+<!-- This repo exists only to forward the old GitHub Pages URL to the live site
+     on Cloudflare Pages. It holds no listing data.
+
+     canonical + meta-refresh are what search engines act on; the JS below is
+     what makes it instant for a human. GitHub Pages cannot issue a real 301 on
+     a static site, so this is a soft redirect: browsers follow it fine,
+     crawlers treat it as a strong hint rather than a permanent move. Google
+     consolidates on the canonical over a few weeks. -->
+<link rel="canonical" href="https://samanthaphillipsrealtor.pages.dev/">
+<meta http-equiv="refresh" content="0; url=https://samanthaphillipsrealtor.pages.dev/">
+<meta name="robots" content="noindex, follow">
+
+<style>
+	html{color-scheme:light dark}
+	body{margin:0;min-height:100vh;display:grid;place-items:center;
+	     font:400 1rem/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+	     background:#fff;color:#111;padding:2rem;text-align:center}
+	@media (prefers-color-scheme:dark){body{background:#111;color:#f2f2f2}}
+	h1{font-weight:300;font-size:1.5rem;margin:0 0 .75rem;letter-spacing:.01em}
+	p{margin:0 0 1.5rem;opacity:.75}
+	a.go{display:inline-block;padding:.75rem 1.5rem;border:1px solid currentColor;
+	     border-radius:2px;text-decoration:none;color:inherit;letter-spacing:.06em;
+	     text-transform:uppercase;font-size:.8rem}
+</style>
+</head>
+<body>
+
+<main>
+	<h1>Samantha Phillips Real Estate has moved</h1>
+	<p>Redirecting you to the new site&hellip;</p>
+	<a class="go" href="https://samanthaphillipsrealtor.pages.dev/">Continue to the site</a>
+</main>
+
+<script>
+	// replace() rather than assign(): the old URL should not enter history, so
+	// Back returns where the visitor actually came from instead of bouncing.
+	location.replace("https://samanthaphillipsrealtor.pages.dev/");
+</script>
+
+</body>
+</html>
